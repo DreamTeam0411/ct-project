@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+
+    ct_project_php_api:
+        user: "www-data:www-data"
+        build:
+            context: .
+            dockerfile: docker/php-fpm/Dockerfile
+            args:
+                ENVIRONMENT: development
+                GROUP_ID: 1000
+                USER_ID: 1000
+        environment:
+            SUPERVISOR_USER: ${SUPERVISOR_USER}
+            SUPERVISOR_PASSWORD: ${SUPERVISOR_PASSWORD}
+        ports:
+            - "9005:9001"
+
+    ct_project_db:
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - "3309:3306"
+
+    ct_project_nginx_api:
+        ports:
+            - "86:80"
+
+    ct_project_redis:
+        environment:
+            - REDIS_USERNAME=${REDIS_USERNAME}
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
+        ports:
+            - "6376:6379"
+
+    ct_project_rabbitmq:
+        environment:
+            - RABBITMQ_DEFAULT_USER=${AMQP_USER}
+            - RABBITMQ_DEFAULT_PASS=${AMQP_PASSWORD}
+        volumes:
+            - rabbitmq_storage:/var/lib/rabbitmq/
+        ports:
+            - "15674:15672"
+            - "5674:5672"
+
+    ct_project_swagger_ui:
+        ports:
+            - "8092:8080"
+
+networks:
+    ct_project_networks:
+        external: true
+        name: ct_project_networks
+        driver: bridge
+
+volumes:
+    mysql_storage:
+        name: mysql_storage
+        driver: local
+    rabbitmq_storage:
+        name: rabbitmq_storage
+        driver: local

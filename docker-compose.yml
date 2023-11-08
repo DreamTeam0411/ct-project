@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+
+    ct_project_php_api:
+        image: ct_project_php_api:latest
+        restart: always
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - ct_project_networks
+
+    ct_project_db:
+        image: mysql:8
+        restart: always
+        volumes:
+            - mysql_storage:/var/lib/mysql
+        networks:
+            - ct_project_networks
+
+    ct_project_nginx_api:
+        image: nginx:alpine
+        restart: always
+        volumes:
+            - ./docker/nginx/api.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www/html
+        networks:
+            - ct_project_networks
+
+    ct_project_redis:
+        image: bitnami/redis
+        restart: always
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - ct_project_networks
+
+    ct_project_rabbitmq:
+        image: rabbitmq:management
+        restart: always
+        volumes:
+            - rabbitmq_storage:/var/lib/rabbitmq/
+        networks:
+            - ct_project_networks
+
+    ct_project_swagger_ui:
+        image: swaggerapi/swagger-ui
+        networks:
+            - ct_project_networks
