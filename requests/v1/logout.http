@@ -1,0 +1,4 @@
+POST http://{{host}}/api/v1/logout
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}

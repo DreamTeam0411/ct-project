@@ -1,0 +1,3 @@
+GET {{host}}/api/v1/welcome
+Accept: application/json
+Content-Type: application/json

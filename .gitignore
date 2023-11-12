@@ -19,3 +19,4 @@ yarn-error.log
 /.vscode
 docker-compose.override.yml
 /storage/programs.conf
+/requests/v1/http-client.env.json

@@ -3,6 +3,7 @@ FROM php:8.2.3-fpm-alpine3.17
 ARG GROUP_ID
 ARG USER_ID
 ARG COMPOSER_VERSION=2.3.10
+ARG ENVIRONMENT
 
 RUN apk update
 RUN apk upgrade

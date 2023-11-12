@@ -1,0 +1,12 @@
+POST http://{{host}}/api/v1/register
+Accept: application/json
+Content-Type: application/json
+
+{
+    "firstName": "",
+    "lastName": "",
+    "phoneNumber": "",
+    "email": "",
+    "password": "",
+    "password_confirmation": ""
+}
