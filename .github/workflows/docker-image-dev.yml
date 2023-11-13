@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the Docker image
-        run: docker build . -- docker/php-fpm/Dockerfile --tag my-image-name:$(date +%s)
+        run: docker build . --file docker/php-fpm/Dockerfile --tag my-image-name:$(date +%s)
