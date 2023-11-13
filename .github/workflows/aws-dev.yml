@@ -26,8 +26,8 @@ jobs:
 
       - name: Build and push Docker image
         with:
-          GROUP_ID: ${ secrets.GROUP_ID }
-          USER_ID: ${ secrets.USER_ID }
+          GROUP_ID: ${{ secrets.GROUP_ID }}
+          USER_ID: ${{ secrets.USER_ID }}
         run: |
           docker build -t ct_project:latest .
           docker tag ct_project:latest ${{ secrets.AWS_REGISTRY_URL }}/ct_project:latest
