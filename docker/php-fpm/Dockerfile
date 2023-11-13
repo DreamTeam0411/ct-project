@@ -40,19 +40,19 @@ RUN if [ "$ENVIRONMENT" = "development" ]; then \
     fi
 
 RUN if ! getent group www-data >/dev/null; then \
-      addgroup -g ${{ secrets.GROUP_ID }} www-data; \
+      addgroup -g ${GROUP_ID} www-data; \
     fi
 
 RUN if ! getent passwd www-data >/dev/null; then \
-      adduser -D -G www-data -u ${{ secrets.USER_ID }} -s /bin/bash -h /home/www-data www-data; \
+      adduser -D -G www-data -u ${USER_ID} -s /bin/bash -h /home/www-data www-data; \
     fi
 
 RUN chown -R www-data:www-data /var/www/html
 
-RUN addgroup -g ${{ secrets.GROUP_ID }} parent
+RUN addgroup -g ${GROUP_ID} parent
 RUN echo http://dl-2.alpinelinux.org/alpine/edge/community/ >> /etc/apk/repositories
 RUN apk add -U shadow
-RUN usermod -u ${{ secrets.USER_ID }} -g ${{ secrets.GROUP_ID }} www-data
+RUN usermod -u ${USER_ID} -g ${GROUP_ID} www-data
 
 WORKDIR /var/www/html
 
