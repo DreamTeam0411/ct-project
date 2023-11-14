@@ -14,7 +14,7 @@ jobs:
         run: |
           docker build \
             --file docker/php-fpm/Dockerfile \
-            --build-arg GROUP_ID=1000 \
-            --build-arg USER_ID=1000 \
-            --build-arg ENVIRONMENT=production \
+            --build-arg GROUP_ID={{ secrets.GROUP_ID }} \
+            --build-arg USER_ID={{ secrets.USER_ID }} \
+            --build-arg ENVIRONMENT={{ secrets.ENVIRONMENT }} \
             --tag my-image-name:$(date +%s) .
