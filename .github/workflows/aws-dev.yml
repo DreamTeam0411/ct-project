@@ -25,6 +25,10 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build and push Docker image
+        with:
+          build-args:
+            GROUP_ID = ${{ secrets.GROUP_ID }}
+            USER_ID = ${{ secrets.USER_ID }}
         run: |
           docker build -t ct_project:latest .
           docker tag ct_project:latest ${{ secrets.AWS_REGISTRY_URL }}/ct_project:latest
