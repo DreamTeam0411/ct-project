@@ -26,7 +26,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ct_project:latest .
+          docker build -t ct_project:latest --file docker/php-fpm/Dockerfile .
           docker tag ct_project:latest ${{ secrets.AWS_REGISTRY_URL }}/ct_project:latest
           docker push ${{ secrets.AWS_REGISTRY_URL }}/ct_project:latest
 
