@@ -62,7 +62,7 @@ WORKDIR /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}
 
-USER www-data
+#USER www-data
 
 #CMD supervisord -c /etc/supervisord.conf -n
 
