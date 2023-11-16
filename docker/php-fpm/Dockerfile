@@ -18,7 +18,7 @@ RUN apk add \
     autoconf \
     g++ \
     make \
-    supervisor \
+#    supervisor \
     zip \
     libzip-dev \
     openssl-dev \
@@ -56,12 +56,14 @@ RUN usermod -u ${USER_ID} -g ${GROUP_ID} www-data
 
 WORKDIR /var/www/html
 
-COPY ./docker/php-fpm/supervisord/supervisord.conf /etc/supervisord.conf
+#COPY ./docker/php-fpm/supervisord/supervisord.conf /etc/supervisord.conf
 
-RUN mkdir -p /var/run/supervisor
+#RUN mkdir -p /var/run/supervisor
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION}
 
 USER www-data
 
-CMD supervisord -c /etc/supervisord.conf -n
+#CMD supervisord -c /etc/supervisord.conf -n
+
+CMD ["php-fpm"]
