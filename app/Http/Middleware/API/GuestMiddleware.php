@@ -19,7 +19,7 @@ class GuestMiddleware
             return $next($request);
         }
 
-        return response()->json(['error' => 'You are logged in already'])
+        return response()->json(['message' => 'You are logged in already'])
             ->setStatusCode(200);
     }
 }

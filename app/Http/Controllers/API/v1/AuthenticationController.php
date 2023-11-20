@@ -5,12 +5,14 @@ namespace App\Http\Controllers\API\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\LoginUserRequest;
 use App\Http\Requests\Authentication\RegisteredUserRequest;
+use App\Http\Resources\ErrorResource;
 use App\Http\Resources\User\UserResource;
 use App\Repositories\UserRepository\RegisterUserDTO;
 use App\Services\UserService\AuthUserService;
 use App\Services\UserService\Login\LoginDTO;
 use App\Services\UserService\Login\LoginService;
 use App\Services\UserService\UserService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 
 class AuthenticationController extends Controller
@@ -37,7 +39,12 @@ class AuthenticationController extends Controller
     public function login(LoginUserRequest $request, LoginService $service): JsonResponse
     {
         $DTO = new LoginDTO(...$request->validated());
-        $user = $service->handle($DTO);
+
+        try {
+            $user = $service->handle($DTO);
+        } catch (Exception $e) {
+            return (new ErrorResource($e))->response();
+        }
 
         $resource = new UserResource($user->getUserIterator());
         $bearerToken = $user->getBearerToken();

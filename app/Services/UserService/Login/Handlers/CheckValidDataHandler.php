@@ -6,6 +6,7 @@ use App\Services\UserService\AuthUserService;
 use App\Services\UserService\Login\LoginDTO;
 use App\Services\UserService\Login\LoginInterface;
 use Closure;
+use Exception;
 
 class CheckValidDataHandler implements LoginInterface
 {
@@ -18,6 +19,7 @@ class CheckValidDataHandler implements LoginInterface
      * @param LoginDTO $loginDTO
      * @param Closure $next
      * @return LoginDTO
+     * @throws Exception
      */
     public function handle(LoginDTO $loginDTO, Closure $next): LoginDTO
     {
@@ -27,7 +29,7 @@ class CheckValidDataHandler implements LoginInterface
         ];
 
         if ($this->authUserService->isUserDataValid($data) === false) {
-            return $loginDTO;
+            throw new Exception('Credentials do not match our records.', 200);
         }
 
         return $next($loginDTO);
