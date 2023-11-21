@@ -35,6 +35,6 @@ jobs:
           docker tag ct-project:latest ${{ secrets.AWS_REGISTRY_URL }}/ct-project:latest
           docker push ${{ secrets.AWS_REGISTRY_URL }}/ct-project:latest
 
-      - name: Update ECS service
-        run: |
-          aws ecs update-service --cluster ct-project --service ct-project-service --force-new-deploy
+#      - name: Update ECS service
+#        run: |
+#          aws ecs update-service --cluster ct-project --service ct-project-service --force-new-deploy
