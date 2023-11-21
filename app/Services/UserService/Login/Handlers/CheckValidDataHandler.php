@@ -29,7 +29,7 @@ class CheckValidDataHandler implements LoginInterface
         ];
 
         if ($this->authUserService->isUserDataValid($data) === false) {
-            throw new Exception('Credentials do not match our records.', 200);
+            throw new Exception('Credentials do not match our records.', 500);
         }
 
         return $next($loginDTO);

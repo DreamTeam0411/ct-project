@@ -1,15 +1,396 @@
 {
-    "openapi": "3.0.3",
+    "openapi": "3.0.0",
     "info": {
-        "title": "Title",
-        "description": "Title",
-        "version": "1.0.0"
+        "title": "ct-project-api",
+        "version": "0.1"
     },
     "servers": [
         {
-            "url": "https"
+            "url": "https://3.79.151.249:86/api/"
+        },
+        {
+            "url": "http://172.19.0.1:86/api/"
         }
     ],
     "paths": {
+        "/v1/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "5e6212e902f560c1cc9027f81a70c9c9",
+                "parameters": [
+                    {
+                        "name": "firstName",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "description": "Min: 4 symbols, max: 30",
+                        "required": true,
+                        "schema": {
+                            "description": "Phone number, only numbers allow",
+                            "type": "string",
+                            "maxLength": 30,
+                            "minLength": 4
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Min: 6 symbols, max: 255, at least one number and one capital letter",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "minLength": 6
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "description": "Should repeat password field",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "minLength": 6
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful registration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Response for logged user",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "You are logged in already."
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "235c436498314d3616f1ca4d343f48f2",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Only email from DB, max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Min: 6 symbols, max: 255, at least one number and one capital letter",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "minLength": 6
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/Bearer"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Response for logged user",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "You are logged in already."
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Wrong email or password",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/profile": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "924474c59278b2e20b7b5b20f109a502",
+                "responses": {
+                    "200": {
+                        "description": "Shows user profile",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "411ce3ba48bf14ea9556a2eb57d970ea",
+                "responses": {
+                    "200": {
+                        "description": "Logout user",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "User was logged out."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Error: Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Unauthenticated."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Error": {
+                "description": "Show error exception",
+                "properties": {
+                    "message": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "code": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationErrors": {
+                "description": "Validation Errors",
+                "properties": {
+                    "message": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "errors": {
+                        "description": "each key describes error message",
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Bearer": {
+                "description": "Shows Bearer token",
+                "properties": {
+                    "accessToken": {
+                        "description": "Bearer token",
+                        "type": "string"
+                    },
+                    "token": {
+                        "description": "Token info",
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "user_id": {
+                                "type": "integer"
+                            },
+                            "client_id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "scopes": {
+                                "type": "object"
+                            },
+                            "revoked": {
+                                "type": "boolean"
+                            },
+                            "created_at": {
+                                "type": "string"
+                            },
+                            "updated_at": {
+                                "type": "string"
+                            },
+                            "expires_at": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "description": "Show information about user",
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
     }
 }
