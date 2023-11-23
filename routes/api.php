@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1'], function () {
         return response('Hello, World');
     });
     //TODO: Unit tests for auth services
-    Route::post('/email-verify/{id}', [EmailVerificationController::class, 'verify'])
+    Route::get('/email-verify/{id}', [EmailVerificationController::class, 'verify'])
         ->name('verification.verify');
 
     Route::group(['middleware' => ['auth:api']], function () {
