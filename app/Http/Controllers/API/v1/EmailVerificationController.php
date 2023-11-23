@@ -61,7 +61,7 @@ class EmailVerificationController extends Controller
      * @param int $userId
      * @return JsonResponse
      */
-    #[OA\Post(
+    #[OA\Get(
         path: '/v1/email-verify/{id}',
         tags: ['Authentication'],
         parameters: [

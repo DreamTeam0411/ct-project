@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://3.79.151.249:86/api/"
+            "url": "http://3.68.186.228:86/api/"
         },
         {
             "url": "http://172.19.0.1:86/api/"
@@ -322,11 +322,11 @@
             }
         },
         "/v1/email-verify/{id}": {
-            "post": {
+            "get": {
                 "tags": [
                     "Authentication"
                 ],
-                "operationId": "7868c15c63b2a521761e0536980591ab",
+                "operationId": "6b6394b2b34f8646c26f9546009eece9",
                 "parameters": [
                     {
                         "name": "id",
