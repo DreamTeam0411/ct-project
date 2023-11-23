@@ -1,0 +1,4 @@
+POST http://{{host}}/api/v1/resend-verification-email
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}

@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "https://3.79.151.249:86/api/"
+            "url": "http://3.79.151.249:86/api/"
         },
         {
             "url": "http://172.19.0.1:86/api/"
@@ -282,6 +282,110 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/v1/resend-verification-email": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "1e1ae40df7a09d7e0cc9a9be3c34d0aa",
+                "responses": {
+                    "200": {
+                        "description": "Send verification email",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Verification mail sent on your email."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "If email is verified already",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Your email is already verified."
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/email-verify/{id}": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "operationId": "7868c15c63b2a521761e0536980591ab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User ID",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "expires",
+                        "in": "query",
+                        "description": "timestamp",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "hash",
+                        "in": "query",
+                        "description": "Hashed email",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "signature",
+                        "in": "query",
+                        "description": "electronic signature",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Verify your email",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Your email has been verified."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "If url expired or invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "message": "Invalid/Expired url provided."
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

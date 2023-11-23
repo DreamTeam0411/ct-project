@@ -2,6 +2,7 @@
 
 namespace App\Services\UserService;
 
+use App\Models\User;
 use Laravel\Passport\PersonalAccessTokenResult;
 use Laravel\Passport\Token;
 use Laravel\Passport\TransientToken;
@@ -47,5 +48,27 @@ class AuthUserService
     public function getUserToken(): Token|TransientToken|null
     {
         return auth()->user()->token();
+    }
+
+    /**
+     * Check if user's email is verified.
+     * @return bool
+     */
+    public function isEmailVerified(): bool
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        return $user->hasVerifiedEmail();
+    }
+
+    /**
+     * Send verification mail on user's email.
+     * @return void
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $user->sendEmailVerificationNotification();
     }
 }
