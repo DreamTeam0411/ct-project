@@ -60,15 +60,4 @@ class AuthUserService
         $user = auth()->user();
         return $user->hasVerifiedEmail();
     }
-
-    /**
-     * Send verification mail on user's email.
-     * @return void
-     */
-    public function sendEmailVerificationNotification(): void
-    {
-        /** @var User $user */
-        $user = auth()->user();
-        $user->sendEmailVerificationNotification();
-    }
 }

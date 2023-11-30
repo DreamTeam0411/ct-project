@@ -12,11 +12,9 @@ class UserService
 {
     /**
      * @param UserRepository $userRepository
-     * @param EmailVerificationService $emailVerificationService
      */
     public function __construct(
         protected UserRepository $userRepository,
-        protected EmailVerificationService $emailVerificationService,
     ) {
     }
 
@@ -24,12 +22,7 @@ class UserService
     {
         $userId = $this->userRepository->insertAndGetId($DTO);
 
-        $user = $this->userRepository->getUserById($userId);
-        $DTO = new EmailVerificationDTO($user->getId(), $user->getEmail());
-
-        $this->emailVerificationService->sendNotification($DTO);
-
-        return $user;
+        return $this->userRepository->getUserById($userId);
     }
 
     public function getUserById(int $id): UserIterator

@@ -19,7 +19,7 @@ class RegisteredUserRequest extends FormRequest
             'firstName' => ['required', 'string', 'max:255'],
             'lastName'  => ['required', 'string', 'max:255'],
             'phoneNumber' => ['required', 'string', 'regex:/^([0-9]*)$/', 'min:4', 'max:30'],
-            'email' => ['required', 'unique:users', 'max:255'],
+            'email' => ['required', 'email:rfc,dns', 'unique:users', 'max:255'],
             'password' => [
                 'required',
                 'max:255',

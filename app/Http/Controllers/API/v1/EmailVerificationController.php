@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Authentication\EmailVerificationRequest;
+use App\Http\Resources\User\EmailVerificationResource;
 use App\Models\User;
+use App\Services\EmailVerificationService\EmailVerificationService;
 use App\Services\UserService\AuthUserService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
 class EmailVerificationController extends Controller
 {
     /**
      * @param AuthUserService $authUserService
+     * @param EmailVerificationService $emailVerificationService
      */
     public function __construct(
-        protected AuthUserService $authUserService
+        protected AuthUserService $authUserService,
+        protected EmailVerificationService $emailVerificationService,
     ) {
     }
 
@@ -29,9 +33,9 @@ class EmailVerificationController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Send verification email',
+                description: 'Send verification email data',
                 content: new OA\JsonContent(
-                    example: ['message' => 'Verification mail sent on your email.']
+                    ref: '#/components/schemas/EmailVerification'
                 )
             ),
             new OA\Response(
@@ -50,15 +54,17 @@ class EmailVerificationController extends Controller
                 ->setStatusCode(400);
         }
 
-        $this->authUserService->sendEmailVerificationNotification();
+        $resource = new EmailVerificationResource(
+            $this->emailVerificationService->generateEmailVerifyData(
+                $this->authUserService->getUserId()
+            )
+        );
 
-        return response()->json(['message' => 'Verification mail sent on your email.'])
-            ->setStatusCode(200);
+        return $resource->response()->setStatusCode(200);
     }
 
     /**
-     * @param Request $request
-     * @param int $userId
+     * @param EmailVerificationRequest $request
      * @return JsonResponse
      */
     #[OA\Get(
@@ -102,7 +108,7 @@ class EmailVerificationController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Verify your email',
+                description: 'Verify your email or email is already verified',
                 content: new OA\JsonContent(
                     example: ['message' => 'Your email has been verified.']
                 )
@@ -113,17 +119,26 @@ class EmailVerificationController extends Controller
                 content: new OA\JsonContent(
                     example: ['message' => 'Invalid/Expired url provided.']
                 )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation errors',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/ValidationErrors'
+                )
             )
         ],
     )]
-    public function verify(Request $request, int $userId): JsonResponse
+    public function verify(EmailVerificationRequest $request): JsonResponse
     {
+        $validated = $request->validated();
+
         if ($request->hasValidSignature() === false) {
             return response()->json(['message' => 'Invalid/Expired url provided.'])
                 ->setStatusCode(400);
         }
 
-        $user = User::findOrfail($userId);
+        $user = User::findOrfail($validated['id']);
 
         if ($user->hasVerifiedEmail() === false) {
             $user->markEmailasVerified();

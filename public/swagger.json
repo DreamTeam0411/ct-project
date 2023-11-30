@@ -43,10 +43,9 @@
                     {
                         "name": "phoneNumber",
                         "in": "query",
-                        "description": "Min: 4 symbols, max: 30",
+                        "description": "Min: 4 symbols, max: 30, only numbers allow",
                         "required": true,
                         "schema": {
-                            "description": "Phone number, only numbers allow",
                             "type": "string",
                             "maxLength": 30,
                             "minLength": 4
@@ -91,7 +90,14 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User"
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/EmailVerification"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -292,12 +298,11 @@
                 "operationId": "1e1ae40df7a09d7e0cc9a9be3c34d0aa",
                 "responses": {
                     "200": {
-                        "description": "Send verification email",
+                        "description": "Send verification email data",
                         "content": {
                             "application/json": {
-                                "schema": {},
-                                "example": {
-                                    "message": "Verification mail sent on your email."
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmailVerification"
                                 }
                             }
                         }
@@ -364,7 +369,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Verify your email",
+                        "description": "Verify your email or email is already verified",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -381,6 +386,16 @@
                                 "schema": {},
                                 "example": {
                                     "message": "Invalid/Expired url provided."
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
                                 }
                             }
                         }
@@ -457,6 +472,25 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "EmailVerification": {
+                "description": "Show email verification data",
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "expires": {
+                        "type": "integer"
+                    },
+                    "hash": {
+                        "type": "string"
+                    },
+                    "signature": {
+                        "type": "string"
                     }
                 },
                 "type": "object"

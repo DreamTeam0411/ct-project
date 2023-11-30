@@ -8,6 +8,7 @@ use App\Http\Requests\Authentication\RegisteredUserRequest;
 use App\Http\Resources\Errors\ExceptionResource;
 use App\Http\Resources\User\UserResource;
 use App\Repositories\UserRepository\RegisterUserDTO;
+use App\Services\EmailVerificationService\EmailVerificationService;
 use App\Services\UserService\AuthUserService;
 use App\Services\UserService\Login\LoginDTO;
 use App\Services\UserService\Login\LoginService;
@@ -21,10 +22,12 @@ class AuthenticationController extends Controller
     /**
      * @param UserService $userService
      * @param AuthUserService $authUserService
+     * @param EmailVerificationService $emailVerificationService
      */
     public function __construct(
         protected UserService $userService,
         protected AuthUserService $authUserService,
+        protected EmailVerificationService $emailVerificationService,
     ) {
     }
 
@@ -59,11 +62,10 @@ class AuthenticationController extends Controller
             ),
             new OA\Parameter(
                 name: 'phoneNumber',
-                description: 'Min: 4 symbols, max: 30',
+                description: 'Min: 4 symbols, max: 30, only numbers allow',
                 in: 'query',
                 required: true,
                 schema: new OA\Schema(
-                    description: 'Phone number, only numbers allow',
                     type: 'string',
                     maxLength: 30,
                     minLength: 4
@@ -107,7 +109,10 @@ class AuthenticationController extends Controller
                 response: 201,
                 description: 'Successful registration',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/User'
+                    allOf: [
+                        new OA\Schema(ref: '#/components/schemas/User'),
+                        new OA\Schema(ref: '#/components/schemas/EmailVerification'),
+                    ]
                 )
             ),
             new OA\Response(
@@ -129,10 +134,20 @@ class AuthenticationController extends Controller
     public function register(RegisteredUserRequest $request): JsonResponse
     {
         $DTO = new RegisterUserDTO(...$request->validated());
-        $service = $this->userService->register($DTO);
-        $resource = new UserResource($service);
+        $userIterator = $this->userService->register($DTO);
+        $resource = new UserResource($userIterator);
+        $emailVerifyDTO = $this->emailVerificationService
+            ->generateEmailVerifyData(
+                $userIterator->getId()
+            );
 
-        return $resource->response()->setStatusCode(201);
+        return $resource->additional([
+            'emailVerify' => [
+                'expires'   => $emailVerifyDTO->getExpires(),
+                'hash'      => $emailVerifyDTO->getHash(),
+                'signature' => $emailVerifyDTO->getSignature(),
+            ]
+        ])->response()->setStatusCode(201);
     }
 
     /**
