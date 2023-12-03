@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\EmailVerificationRequest;
 use App\Http\Resources\User\EmailVerificationResource;
 use App\Models\User;
-use App\Services\EmailVerificationService\EmailVerificationService;
-use App\Services\UserService\AuthUserService;
+use App\Services\EmailVerification\EmailVerificationService;
+use App\Services\Users\AuthUserService;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 

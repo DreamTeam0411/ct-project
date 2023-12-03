@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Swagger;
 
-use App\Services\SwaggerService\SwaggerService;
+use App\Services\Swagger\SwaggerService;
 use Illuminate\Console\Command;
 use OpenApi\Generator;
 

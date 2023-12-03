@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\API\v1\AuthenticationController;
 use App\Http\Controllers\API\v1\EmailVerificationController;
+use App\Http\Controllers\API\v1\HomePageController;
 use App\Http\Middleware\API\GuestMiddleware;
-use App\Services\SwaggerService\SwaggerService;
+use App\Services\Swagger\SwaggerService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,9 +23,7 @@ Route::get('swagger', function () {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('/welcome', function () {
-        return response('Hello, World');
-    });
+    Route::get('/homepage', [HomePageController::class, 'index'])->name('title.page');
     //TODO: Unit tests for auth services
     Route::get('/email-verify/{id}', [EmailVerificationController::class, 'verify'])
         ->name('verification.verify');

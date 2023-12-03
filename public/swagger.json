@@ -402,6 +402,26 @@
                     }
                 }
             }
+        },
+        "/v1/homepage": {
+            "get": {
+                "tags": [
+                    "Homepage"
+                ],
+                "operationId": "0201fb70720700b07ab2091c801306c7",
+                "responses": {
+                    "200": {
+                        "description": "Homepage response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Homepage"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -429,6 +449,179 @@
                     "errors": {
                         "description": "each key describes error message",
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "AboutUsBlock": {
+                "description": "Show About Us block data",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "image": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoriesBlock": {
+                "description": "Show categories block title and description",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CategoriesContent": {
+                "description": "Show categories block title and description",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "subcategories": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Subcategories"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "Footer": {
+                "description": "Show Footer block data",
+                "properties": {
+                    "description": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Header": {
+                "description": "Show header",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Links": {
+                "description": "Show all links",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Homepage": {
+                "description": "Show homepage data",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "logo": {
+                                "description": "Transform the resource into an array.",
+                                "type": "string"
+                            },
+                            "links": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Links"
+                                }
+                            },
+                            "header": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Header"
+                                }
+                            },
+                            "categoriesBlock": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/CategoriesBlock"
+                                }
+                            },
+                            "categoriesContent": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/CategoriesContent"
+                                }
+                            },
+                            "aboutUsBlock": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/AboutUsBlock"
+                                }
+                            },
+                            "footer": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Footer"
+                                }
+                            },
+                            "socialMedia": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/SocialMedia"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "SocialMedia": {
+                "description": "Show all social media links",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Subcategories": {
+                "description": "Show all subcategories",
+                "properties": {
+                    "title": {
+                        "description": "Transform the resource into an array.",
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
                     }
                 },
                 "type": "object"

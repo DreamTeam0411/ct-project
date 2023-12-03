@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware\API;
 
-use App\Services\UserService\AuthUserService;
+use App\Services\Users\AuthUserService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
