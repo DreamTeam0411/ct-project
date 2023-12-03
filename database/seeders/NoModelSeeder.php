@@ -23,7 +23,7 @@ class NoModelSeeder extends Seeder
     public function __construct()
     {
         $this->faker = $this->withFaker();
-        $this->query = DB::table('example');
+//        $this->query = DB::table('example');
     }
 
     /**
