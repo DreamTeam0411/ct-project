@@ -11,8 +11,6 @@ use OpenApi\Attributes as OA;
 class HomePageCategoryResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      * @throws Exception
      */

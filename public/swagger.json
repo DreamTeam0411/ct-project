@@ -90,14 +90,15 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "allOf": [
-                                        {
+                                    "properties": {
+                                        "data": {
                                             "$ref": "#/components/schemas/User"
                                         },
-                                        {
+                                        "emailVerify": {
                                             "$ref": "#/components/schemas/EmailVerification"
                                         }
-                                    ]
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -166,14 +167,15 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "allOf": [
-                                        {
+                                    "properties": {
+                                        "data": {
                                             "$ref": "#/components/schemas/User"
                                         },
-                                        {
+                                        "Bearer": {
                                             "$ref": "#/components/schemas/Bearer"
                                         }
-                                    ]
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -204,7 +206,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Error"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Error"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -229,7 +236,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/User"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -302,7 +314,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/EmailVerification"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/EmailVerification"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -430,7 +447,6 @@
                 "description": "Show error exception",
                 "properties": {
                     "message": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "code": {
@@ -448,6 +464,12 @@
                     },
                     "errors": {
                         "description": "each key describes error message",
+                        "properties": {
+                            "inputName": {
+                                "type": "array",
+                                "items": {}
+                            }
+                        },
                         "type": "object"
                     }
                 },
@@ -457,7 +479,6 @@
                 "description": "Show About Us block data",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "description": {
@@ -473,7 +494,6 @@
                 "description": "Show categories block title and description",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "description": {
@@ -486,7 +506,6 @@
                 "description": "Show categories block title and description",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "icon": {
@@ -508,7 +527,6 @@
                 "description": "Show Footer block data",
                 "properties": {
                     "description": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     }
                 },
@@ -518,7 +536,6 @@
                 "description": "Show header",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "description": {
@@ -531,7 +548,6 @@
                 "description": "Show all links",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "link": {
@@ -546,7 +562,6 @@
                     "data": {
                         "properties": {
                             "logo": {
-                                "description": "Transform the resource into an array.",
                                 "type": "string"
                             },
                             "links": {
@@ -601,7 +616,6 @@
                 "description": "Show all social media links",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "link": {
@@ -617,7 +631,6 @@
                 "description": "Show all subcategories",
                 "properties": {
                     "title": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "slug": {
@@ -649,7 +662,10 @@
                                 "type": "string"
                             },
                             "scopes": {
-                                "type": "object"
+                                "type": "array",
+                                "items": {
+                                    "properties": {}
+                                }
                             },
                             "revoked": {
                                 "type": "boolean"
@@ -673,7 +689,6 @@
                 "description": "Show email verification data",
                 "properties": {
                     "id": {
-                        "description": "Transform the resource into an array.",
                         "type": "integer"
                     },
                     "expires": {
@@ -692,7 +707,6 @@
                 "description": "Show information about user",
                 "properties": {
                     "id": {
-                        "description": "Transform the resource into an array.",
                         "type": "integer"
                     },
                     "firstName": {

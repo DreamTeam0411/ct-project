@@ -18,8 +18,22 @@ class ValidationErrorsResource extends JsonResource
         schema: 'ValidationErrors',
         description: 'Validation Errors',
         properties: [
-            new OA\Property(property: 'message', type: 'string'),
-            new OA\Property(property: 'errors', description: "each key describes error message", type: 'object'),
+            new OA\Property(
+                property: 'message',
+                type: 'string'
+            ),
+            new OA\Property(
+                property: 'errors',
+                description: "each key describes error message",
+                properties: [
+                    new OA\Property(
+                        property: 'inputName',
+                        type: 'array',
+                        items: new OA\Items(),
+                    ),
+                ],
+                type: 'object'
+            ),
         ]
     )]
     public function toArray(Request $request): array

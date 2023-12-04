@@ -35,7 +35,12 @@ class EmailVerificationController extends Controller
                 response: 200,
                 description: 'Send verification email data',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/EmailVerification'
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/EmailVerification'
+                        )
+                    ],
                 )
             ),
             new OA\Response(

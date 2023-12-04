@@ -109,9 +109,15 @@ class AuthenticationController extends Controller
                 response: 201,
                 description: 'Successful registration',
                 content: new OA\JsonContent(
-                    allOf: [
-                        new OA\Schema(ref: '#/components/schemas/User'),
-                        new OA\Schema(ref: '#/components/schemas/EmailVerification'),
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/User',
+                        ),
+                        new OA\Property(
+                            property: 'emailVerify',
+                            ref: '#/components/schemas/EmailVerification',
+                        ),
                     ]
                 )
             ),
@@ -143,6 +149,7 @@ class AuthenticationController extends Controller
 
         return $resource->additional([
             'emailVerify' => [
+                'id'        => $emailVerifyDTO->getId(),
                 'expires'   => $emailVerifyDTO->getExpires(),
                 'hash'      => $emailVerifyDTO->getHash(),
                 'signature' => $emailVerifyDTO->getSignature(),
@@ -187,9 +194,15 @@ class AuthenticationController extends Controller
                 response: 200,
                 description: 'Successful login',
                 content: new OA\JsonContent(
-                    allOf: [
-                        new OA\Schema(ref: '#/components/schemas/User'),
-                        new OA\Schema(ref: '#/components/schemas/Bearer'),
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/User',
+                        ),
+                        new OA\Property(
+                            property: 'Bearer',
+                            ref: '#/components/schemas/Bearer'
+                        ),
                     ]
                 ),
             ),
@@ -211,7 +224,12 @@ class AuthenticationController extends Controller
                 response: 500,
                 description: 'Wrong email or password',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/Error'
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/Error'
+                        )
+                    ]
                 )
             ),
         ],
@@ -247,7 +265,13 @@ class AuthenticationController extends Controller
                 response: 200,
                 description: 'Shows user profile',
                 content: new OA\JsonContent(
-                    ref: '#/components/schemas/User',
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/User',
+                        )
+                    ]
+
                 )
             ),
             new OA\Response(

@@ -10,8 +10,6 @@ use OpenApi\Attributes as OA;
 class HomePageAboutUsBlockResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     #[OA\Schema(

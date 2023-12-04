@@ -13,8 +13,6 @@ class BearerResource extends JsonResource
     public static $wrap = 'Bearer';
 
     /**
-     * Transform the nto an array.
-     *
      * @return array<string, mixed>
      */
     #[OA\Schema(
@@ -48,7 +46,10 @@ class BearerResource extends JsonResource
                     ),
                     new OA\Property(
                         property: 'scopes',
-                        type: 'object',
+                        type: 'array',
+                        items: new OA\Items(
+                            properties: [],
+                        ),
                     ),
                     new OA\Property(
                         property: 'revoked',
