@@ -10,8 +10,6 @@ use OpenApi\Attributes as OA;
 class ValidationErrorsResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     #[OA\Schema(
@@ -27,13 +25,26 @@ class ValidationErrorsResource extends JsonResource
                 description: "each key describes error message",
                 properties: [
                     new OA\Property(
-                        property: 'inputName',
+                        property: 'query or path name',
                         type: 'array',
                         items: new OA\Items(),
                     ),
                 ],
                 type: 'object'
             ),
+        ],
+        example: [
+            'message' => 'The email field must be a valid email address. (and 3 more errors)',
+            'errors' => [
+                'email' => [
+                    'The email field must be a valid email address.'
+                ],
+                'password' => [
+                    "The password field confirmation does not match.",
+                    "The password field must contain at least one uppercase and one lowercase letter.",
+                    "The password field must contain at least one number."
+                ],
+            ],
         ]
     )]
     public function toArray(Request $request): array

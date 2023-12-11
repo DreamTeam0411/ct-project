@@ -1,0 +1,3 @@
+GET http://{{host}}/api/v1/email-verify/{{id}}?expires={{expires}}&hash={{hash}}&signature={{signature}}
+Accept: application/json
+Content-Type: application/json

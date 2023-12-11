@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\v1\AuthenticationController;
 use App\Http\Controllers\API\v1\EmailVerificationController;
 use App\Http\Controllers\API\v1\HomePageController;
+use App\Http\Controllers\API\v1\PasswordController;
 use App\Http\Middleware\API\GuestMiddleware;
 use App\Services\Swagger\SwaggerService;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +33,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/profile', [AuthenticationController::class, 'profile'])->name('auth.profile');
         Route::post('/logout', [AuthenticationController::class, 'logout'])->name('auth.logout');
         Route::post('/resend-verification-email', [EmailVerificationController::class, 'resend'])
-            ->name('email.verify.resend');
+            ->name('verification.resend');
 
         Route::group(['middleware' => ['isEmailVerified']], function () {
             Route::get('/for-verified', function () {
@@ -45,5 +46,9 @@ Route::group(['prefix' => 'v1'], function () {
     Route::middleware(GuestMiddleware::class)->group(function () {
         Route::post('/register', [AuthenticationController::class, 'register'])->name('auth.register');
         Route::post('/login', [AuthenticationController::class, 'login'])->name('auth.login');
+        Route::post('/reset-password', [PasswordController::class, 'resetPassword'])
+            ->name('auth.password.reset');
+        Route::post('/change-password/{token}', [PasswordController::class, 'changePassword'])
+            ->name('auth.password.change');
     });
 });

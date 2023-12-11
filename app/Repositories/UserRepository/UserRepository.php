@@ -46,4 +46,18 @@ class UserRepository
                 ->first()
         );
     }
+
+    /**
+     * @param string $email
+     * @param string $password
+     */
+    public function updatePasswordByEmail(string $email, string $password): void
+    {
+        DB::table('users')
+            ->where('email', '=', $email)
+            ->update([
+                'password'      => Hash::make($password),
+                'updated_at'    => Carbon::now(),
+                ]);
+    }
 }

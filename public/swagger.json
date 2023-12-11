@@ -439,6 +439,164 @@
                     }
                 }
             }
+        },
+        "/v1/reset-password": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "operationId": "4de8a30539c666087205cac24911016b",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Only emails of existing users, max:255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Generates reset password token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ResetPassword"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "data": {
+                                        "email": "example@gmail.com",
+                                        "token": "736b32a5265d825732add264f4f85d9e090e4231193a2ad916d962b5a9aca089"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The user's email is not exist",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "data": {
+                                        "message": "The user is not exist.",
+                                        "code": 400
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/change-password/{token}": {
+            "post": {
+                "tags": [
+                    "Password"
+                ],
+                "operationId": "d0317d817ab15e329a8419c12c1d820d",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "password_confirmation",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The password has been changed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "message": "The password has been changed."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid token or email",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "data": {
+                                        "message": "Invalid token or email.",
+                                        "code": 400
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -459,13 +617,12 @@
                 "description": "Validation Errors",
                 "properties": {
                     "message": {
-                        "description": "Transform the resource into an array.",
                         "type": "string"
                     },
                     "errors": {
                         "description": "each key describes error message",
                         "properties": {
-                            "inputName": {
+                            "query or path name": {
                                 "type": "array",
                                 "items": {}
                             }
@@ -473,7 +630,20 @@
                         "type": "object"
                     }
                 },
-                "type": "object"
+                "type": "object",
+                "example": {
+                    "message": "The email field must be a valid email address. (and 3 more errors)",
+                    "errors": {
+                        "email": [
+                            "The email field must be a valid email address."
+                        ],
+                        "password": [
+                            "The password field confirmation does not match.",
+                            "The password field must contain at least one uppercase and one lowercase letter.",
+                            "The password field must contain at least one number."
+                        ]
+                    }
+                }
             },
             "AboutUsBlock": {
                 "description": "Show About Us block data",
@@ -634,6 +804,18 @@
                         "type": "string"
                     },
                     "slug": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPassword": {
+                "description": "Show email and generated reset token",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "token": {
                         "type": "string"
                     }
                 },
