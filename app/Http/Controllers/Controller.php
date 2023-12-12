@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use OpenApi\Attributes as OA;
 
 #[OA\Info(version: "0.1", title: "ct-project-api")]
-#[OA\Server(url: 'http://3.68.186.228:86/api/')]
+#[OA\Server(url: 'http://35.158.227.40:86/api/')]
 #[OA\Server(url: 'http://172.19.0.1:86/api/')]
 #[OA\Components(
     securitySchemes: [
