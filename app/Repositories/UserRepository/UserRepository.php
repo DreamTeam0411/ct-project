@@ -53,11 +53,64 @@ class UserRepository
      */
     public function updatePasswordByEmail(string $email, string $password): void
     {
-        DB::table('users')
+        $this->query
             ->where('email', '=', $email)
             ->update([
                 'password'      => Hash::make($password),
                 'updated_at'    => Carbon::now(),
                 ]);
+    }
+
+    public function isUserHasRole(int $userId, int $roleId): bool
+    {
+        return $this->query
+            ->select([
+                'users.id',
+                'users.first_name',
+                'users.last_name',
+                'users.phone_number',
+                'users.photo',
+                'users.email',
+                'role_user.role_id',
+                'roles.name',
+            ])
+            ->join('role_user', 'users.id', '=', 'user_id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->where('users.id', '=', $userId)
+            ->where('role_user.role_id', '=', $roleId)
+            ->exists();
+    }
+
+    /**
+     * @param string $email
+     * @return bool
+     */
+    public function isUserExistsByEmail(string $email): bool
+    {
+        return $this->query
+            ->select([
+                'users.id',
+                'users.first_name',
+                'users.last_name',
+                'users.phone_number',
+                'users.photo',
+                'users.email',
+                'users.created_at',
+            ])
+            ->where('users.email', '=', $email)
+            ->exists();
+    }
+
+    /**
+     * @param string $email
+     * @return UserIterator
+     */
+    public function getUserByEmail(string $email): UserIterator
+    {
+        return new UserIterator(
+            $this->query
+                ->where('email', '=', $email)
+                ->first()
+        );
     }
 }

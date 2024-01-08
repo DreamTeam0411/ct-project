@@ -12,20 +12,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            CategorySeeder::class,
-            CountrySeeder::class,
-            CitySeeder::class,
-            ServiceSeeder::class,
-            ReviewSeeder::class,
-            HomePageAboutUsBlockSeeder::class,
-            HomePageFaqBlockSeeder::class,
-            HomePageFooterBlockSeeder::class,
-            SocialMediaNetworkSeeder::class,
-            HomePageHeaderBlockSeeder::class,
-            HomePageLogoSeeder::class,
-            HomePageLinksSeeder::class,
-            HomePageSearchByCityBlockSeeder::class,
-            HomePageCategoriesBlockSeeder::class,
+//            CategorySeeder::class,
+//            CountrySeeder::class,
+//            CitySeeder::class,
+//            ServiceSeeder::class,
+//            ReviewSeeder::class,
+//            HomePageAboutUsBlockSeeder::class,
+//            HomePageFaqBlockSeeder::class,
+//            HomePageFooterBlockSeeder::class,
+//            SocialMediaNetworkSeeder::class,
+//            HomePageHeaderBlockSeeder::class,
+//            HomePageLogoSeeder::class,
+//            HomePageLinksSeeder::class,
+//            HomePageSearchByCityBlockSeeder::class,
+//            HomePageCategoriesBlockSeeder::class,
+            RoleSeeder::class,
         ]);
     }
 }

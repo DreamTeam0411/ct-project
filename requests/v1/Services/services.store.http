@@ -1,0 +1,12 @@
+POST http://{{host}}/api/v1/admin/services
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "categoryId": "{{categoryId}}",
+    "title": "{{title}}",
+    "description": "{{description}}",
+    "price": "{{price}}",
+    "cityId": "{{cityId}}"
+}

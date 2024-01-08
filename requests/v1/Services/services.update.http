@@ -1,0 +1,13 @@
+PATCH http://{{host}}/api/v1/admin/services/{{id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "id": {{id}},
+    "categoryId": "{{categoryId}}",
+    "title": "{{title}}",
+    "description": "{{description}}",
+    "price": "{{price}}",
+    "cityId": "{{cityId}}"
+}

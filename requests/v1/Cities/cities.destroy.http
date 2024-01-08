@@ -1,0 +1,4 @@
+DELETE http://{{host}}/api/v1/cities/{{id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}

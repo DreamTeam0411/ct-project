@@ -1,0 +1,10 @@
+PATCH http://{{host}}/api/v1/cities/{{id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "countryId": "{{countryId}}",
+    "parentId": null,
+    "name": "{{name}}"
+}

@@ -1,0 +1,9 @@
+POST http://{{host}}/api/v1/categories
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "parentId": null,
+    "title": "{{title}}"
+}

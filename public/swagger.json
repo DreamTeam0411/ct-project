@@ -302,6 +302,532 @@
                 ]
             }
         },
+        "/v1/admin/categories": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "4c055d6b8be34ca32e5b24cd266d606b",
+                "parameters": [
+                    {
+                        "name": "lastId",
+                        "in": "query",
+                        "description": "Min: 0",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show all categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "90eaef1cf8afc09b050f1d8e8904fe94",
+                "parameters": [
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "Parent Category ID",
+                        "schema": {
+                            "type": "integer",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Name of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Show created category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/admin/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "f7820a3849ad5a0105dbd309f8c822cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show city by id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "4223e0c5199d45c323dcc1b69f454bb3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The category has been deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "c71dccf133a443ad50dcd0db41408fd3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "Parent Category ID",
+                        "schema": {
+                            "type": "integer",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Name of the category",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show all cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/admin/cities": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "919e094db6c915b7b2245d8fb1cb4466",
+                "parameters": [
+                    {
+                        "name": "lastId",
+                        "in": "query",
+                        "description": "Min: 0",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show all cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/City"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "67cd2a02e740d5b8eb97bebae9a7a8d9",
+                "parameters": [
+                    {
+                        "name": "countryId",
+                        "in": "query",
+                        "description": "Country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "Parent Category ID",
+                        "schema": {
+                            "type": "integer",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the city",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created city",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/City"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/admin/cities/{id}": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "69b5841158ef993fa3edb7ca988291db",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show information about the city",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/City"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "5e19c0f76eee7d87703cf2c659a0196c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The city has been deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "f6960ca5f3505fc2f14510dfa1cc24e8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "countryId",
+                        "in": "query",
+                        "description": "Country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "query",
+                        "description": "Parent Category ID",
+                        "schema": {
+                            "type": "integer",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the city",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show information about updated city",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/City"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/v1/resend-verification-email": {
             "post": {
                 "tags": [
@@ -597,10 +1123,451 @@
                     }
                 }
             }
+        },
+        "/v1/admin/services": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "00baecdd5c8011da0c3f5fadb367a3eb",
+                "parameters": [
+                    {
+                        "name": "lastId",
+                        "in": "query",
+                        "description": "Min: 0",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show all services",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "e47780c3bc19c6823a153a591036ff5a",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "query",
+                        "description": "Only existing Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "max: 255",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "max: 500",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 500
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "regex in format: 999.99",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "double"
+                        }
+                    },
+                    {
+                        "name": "cityId",
+                        "in": "query",
+                        "description": "Only existing City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Create new service",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/v1/admin/services/{id}": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "f2054b5c3ba54ce70c8662610187038a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show the service",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "91e3731205a9a05018c2e618702ebf50",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Delete the service"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "caa4db44aeac4e90a1d82e9fb49a009f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "query",
+                        "description": "Only existing Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "max: 255",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "max: 500",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 500
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "regex in format: 999.99",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "double"
+                        }
+                    },
+                    {
+                        "name": "cityId",
+                        "in": "query",
+                        "description": "Only existing City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show updated service",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "Category": {
+                "description": "Show information about category",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "parentId": {
+                        "description": "Integer or null",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "createdBy": {
+                        "$ref": "#/components/schemas/Support"
+                    },
+                    "updatedBy": {
+                        "$ref": "#/components/schemas/Support"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": [
+                    {
+                        "id": 1,
+                        "parentId": null,
+                        "title": "Макіяж",
+                        "slug": "makiyazh",
+                        "createdBy": {
+                            "id": 1,
+                            "firstName": "Марк",
+                            "lastName": "Косенко",
+                            "email": "mark.kosenko@gmail.com"
+                        },
+                        "updatedBy": {
+                            "id": 6,
+                            "firstName": "Ганна",
+                            "lastName": "Носенко",
+                            "email": "hanna.nosenko@gmail.com"
+                        },
+                        "createdAt": "2023-12-02 14:51:18",
+                        "updatedAt": "2023-12-12 16:26:18"
+                    }
+                ]
+            },
+            "CityIdNameAndSlug": {
+                "description": "Show information about city id, name and slug",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "City": {
+                "description": "Show information about city",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "country": {
+                        "$ref": "#/components/schemas/CountryIdNameAndSlug"
+                    },
+                    "parentId": {
+                        "description": "Integer or null",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "example": [
+                    {
+                        "id": 1,
+                        "country": {
+                            "id": 1,
+                            "name": "Україна"
+                        },
+                        "parentId": null,
+                        "name": "Київ",
+                        "slug": "ukrayina-kiyiv",
+                        "createdAt": "2023-12-02 14:51:18",
+                        "updatedAt": "2023-12-02 14:56:21"
+                    }
+                ]
+            },
+            "CountryIdNameAndSlug": {
+                "description": "Show information about country id and name",
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "Error": {
                 "description": "Show error exception",
                 "properties": {
@@ -821,6 +1788,79 @@
                 },
                 "type": "object"
             },
+            "Service": {
+                "description": "Show information about service",
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "category": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "integer"
+                    },
+                    "user": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "firstName": {
+                                "type": "string"
+                            },
+                            "lastName": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/CityIdNameAndSlug"
+                    },
+                    "createdAt": {
+                        "type": "integer"
+                    },
+                    "updatedAt": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "category": {
+                        "id": 4,
+                        "title": "Догляд за нігтями",
+                        "slug": "doglyad-za-nigtyami"
+                    },
+                    "title": "Заголовок послуги",
+                    "description": "Детальний опис послуги",
+                    "user": {
+                        "id": 32,
+                        "firstName": "Олена",
+                        "lastName": "Новікова",
+                        "email": "olena.novikova@example.com"
+                    },
+                    "price": 900.45,
+                    "city": {
+                        "id": 1,
+                        "name": "Київ",
+                        "slug": "ukrayina-kiyiv"
+                    },
+                    "createdAt": "2023-12-02 14:51:18",
+                    "updatedAt": "2023-12-02 14:51:18"
+                }
+            },
             "Bearer": {
                 "description": "Shows Bearer token",
                 "properties": {
@@ -880,6 +1920,24 @@
                         "type": "string"
                     },
                     "signature": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Support": {
+                "description": "Show information about user with support role",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
                         "type": "string"
                     }
                 },

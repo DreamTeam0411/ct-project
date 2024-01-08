@@ -1,0 +1,10 @@
+POST http://{{host}}/api/v1/cities
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "countryId": "{{countryId}}",
+    "parentId": null,
+    "name": "{{name}}"
+}
