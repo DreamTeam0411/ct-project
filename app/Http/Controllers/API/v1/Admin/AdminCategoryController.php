@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\API\v1\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CategoryDestroyRequest;
@@ -9,14 +9,16 @@ use App\Http\Requests\Category\CategoryShowRequest;
 use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Errors\ExceptionResource;
 use App\Repositories\Categories\CategoryStoreDTO;
 use App\Repositories\Categories\CategoryUpdateDTO;
 use App\Services\Category\PrivateCategoryService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
-class CategoryController extends Controller
+class AdminCategoryController extends Controller
 {
     public function __construct(
         protected PrivateCategoryService $categoryService,
@@ -254,7 +256,7 @@ class CategoryController extends Controller
 
     /**
      * @param CategoryDestroyRequest $request
-     * @return Response
+     * @return JsonResponse|Response
      */
     #[OA\Delete(
         path: '/v1/admin/categories/{id}',
@@ -276,12 +278,36 @@ class CategoryController extends Controller
                 response: 204,
                 description: 'The category has been deleted',
             ),
+            new OA\Response(
+                response: 400,
+                description: 'The category used by other services.',
+                content: new OA\JsonContent(
+                    example: [
+                        'data' => [
+                            'message' => 'This category is using by other services.',
+                            'code'    => 400,
+                        ]
+                    ],
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation errors',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/ValidationErrors'
+                )
+            ),
         ],
     )]
-    public function destroy(CategoryDestroyRequest $request): Response
+    public function destroy(CategoryDestroyRequest $request): JsonResponse|Response
     {
         $validated = $request->validated();
-        $this->categoryService->deleteById($validated['id']);
+
+        try {
+            $this->categoryService->deleteById($validated['id']);
+        } catch (Exception $e) {
+            return (new ExceptionResource($e))->response()->setStatusCode($e->getCode());
+        }
 
         return response()->noContent();
     }

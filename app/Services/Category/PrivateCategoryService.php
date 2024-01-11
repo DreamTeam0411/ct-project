@@ -6,15 +6,20 @@ use App\Repositories\Categories\CategoryRepository;
 use App\Repositories\Categories\CategoryStoreDTO;
 use App\Repositories\Categories\CategoryUpdateDTO;
 use App\Repositories\Categories\Iterators\PrivateCategoryIterator;
+use App\Repositories\Services\ServiceRepository;
+use App\Services\Service\ServiceService;
+use Exception;
 use Illuminate\Support\Collection;
 
 class PrivateCategoryService
 {
     /**
      * @param CategoryRepository $categoryRepository
+     * @param ServiceRepository $serviceRepository
      */
     public function __construct(
-        protected CategoryRepository $categoryRepository
+        protected CategoryRepository $categoryRepository,
+        protected ServiceRepository $serviceRepository
     ) {
     }
 
@@ -40,9 +45,9 @@ class PrivateCategoryService
 
     /**
      * @param int $id
-     * @return PrivateCategoryIterator
+     * @return PrivateCategoryIterator|null
      */
-    public function getById(int $id): PrivateCategoryIterator
+    public function getById(int $id): ?PrivateCategoryIterator
     {
         return $this->categoryRepository->getPrivateCategoryById($id);
     }
@@ -61,9 +66,14 @@ class PrivateCategoryService
     /**
      * @param int $id
      * @return void
+     * @throws Exception
      */
     public function deleteById(int $id): void
     {
+        if ($this->serviceRepository->isExistsByCategoryId($id) === true) {
+            throw new Exception('This category is using by other services.', 400);
+        }
+
         $this->categoryRepository->deleteById($id);
     }
 }

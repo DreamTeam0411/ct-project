@@ -2,12 +2,13 @@
 
 namespace App\Repositories\Services;
 
-class ServiceStoreDTO
+class AdminServiceStoreDTO
 {
     public function __construct(
         protected int $categoryId,
         protected string $title,
         protected string $description,
+        protected int $userId,
         protected float $price,
         protected int $cityId,
     ){
@@ -35,6 +36,14 @@ class ServiceStoreDTO
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 
     /**

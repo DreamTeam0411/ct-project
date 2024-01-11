@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Service;
+namespace App\Http\Requests\AdminService;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServiceUpdateRequest extends FormRequest
+class AdminServiceUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -19,6 +19,7 @@ class ServiceUpdateRequest extends FormRequest
             'categoryId'    => ['integer', 'exists:categories,id'],
             'title'         => ['string', 'max:255'],
             'description'   => ['string', 'max:500'],
+            'userId'        => ['integer', 'exists:users,id'],
             'price'         => ['regex:/^\d*(\.\d{2})?$/', 'required'],
             'cityId'        => ['integer', 'exists:cities,id'],
         ];

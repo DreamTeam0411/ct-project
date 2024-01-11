@@ -4,8 +4,9 @@ namespace App\Services\Service;
 
 use App\Repositories\Services\Iterators\PrivateServiceIterator;
 use App\Repositories\Services\ServiceRepository;
-use App\Repositories\Services\ServiceStoreDTO;
+use App\Repositories\Services\AdminServiceStoreDTO;
 use App\Repositories\Services\ServiceUpdateDTO;
+use Exception;
 use Illuminate\Support\Collection;
 
 class ServiceService
@@ -28,10 +29,10 @@ class ServiceService
     }
 
     /**
-     * @param ServiceStoreDTO $DTO
+     * @param AdminServiceStoreDTO $DTO
      * @return PrivateServiceIterator
      */
-    public function insertAndGetService(ServiceStoreDTO $DTO): PrivateServiceIterator
+    public function insertAndGetService(AdminServiceStoreDTO $DTO): PrivateServiceIterator
     {
         $serviceId = $this->serviceRepository->insertAndGetId($DTO);
 

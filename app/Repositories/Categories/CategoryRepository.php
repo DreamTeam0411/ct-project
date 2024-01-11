@@ -97,9 +97,9 @@ class CategoryRepository
 
     /**
      * @param int $id
-     * @return PrivateCategoryIterator
+     * @return PrivateCategoryIterator|null
      */
-    public function getPrivateCategoryById(int $id): PrivateCategoryIterator
+    public function getPrivateCategoryById(int $id): ?PrivateCategoryIterator
     {
         $category = $this->query
             ->select([
@@ -150,10 +150,14 @@ class CategoryRepository
 
     /**
      * @param object|null $category
-     * @return PrivateCategoryIterator
+     * @return PrivateCategoryIterator|null
      */
-    private function getPrivateCategoryIterator(object|null $category): PrivateCategoryIterator
+    private function getPrivateCategoryIterator(object|null $category): ?PrivateCategoryIterator
     {
+        if ($category === null) {
+            return null;
+        }
+
         return new PrivateCategoryIterator((object)[
             'id' => $category->id,
             'parent_id' => $category->parent_id,

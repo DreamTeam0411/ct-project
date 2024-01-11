@@ -1,4 +1,4 @@
-GET http://{{host}}/api/v1/admin/services
+GET http://{{host}}/api/v1/admin/admin/services
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

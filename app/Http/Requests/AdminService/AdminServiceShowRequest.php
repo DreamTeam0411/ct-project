@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Service;
+namespace App\Http\Requests\AdminService;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServiceShowRequest extends FormRequest
+class AdminServiceShowRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

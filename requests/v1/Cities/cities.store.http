@@ -1,4 +1,4 @@
-POST http://{{host}}/api/v1/cities
+POST http://{{host}}/api/v1/admin/cities
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

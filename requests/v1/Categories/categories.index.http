@@ -1,4 +1,4 @@
-GET http://{{host}}/api/v1/categories
+GET http://{{host}}/api/v1/admin/categories
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

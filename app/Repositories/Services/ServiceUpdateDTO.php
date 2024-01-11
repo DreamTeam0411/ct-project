@@ -9,6 +9,7 @@ class ServiceUpdateDTO
         protected int $categoryId,
         protected string $title,
         protected string $description,
+        protected int $userId,
         protected float $price,
         protected int $cityId,
     ){
@@ -44,6 +45,14 @@ class ServiceUpdateDTO
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 
     /**

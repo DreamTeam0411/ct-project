@@ -71,14 +71,14 @@ class ServiceRepository
         });
     }
 
-    public function insertAndGetId(ServiceStoreDTO $DTO): int
+    public function insertAndGetId(AdminServiceStoreDTO $DTO): int
     {
         return $this->query
             ->insertGetId([
                 'category_id'   => $DTO->getCategoryId(),
                 'title'         => $DTO->getTitle(),
                 'description'   => $DTO->getDescription(),
-                'user_id'       => $this->authUserService->getUserId(),
+                'user_id'       => $DTO->getUserId(),
                 'price'         => $DTO->getPrice(),
                 'city_id'       => $DTO->getCityId(),
                 'created_at'    => Carbon::now(),
@@ -129,7 +129,7 @@ class ServiceRepository
                 'services.category_id'   => $DTO->getCategoryId(),
                 'services.title'         => $DTO->getTitle(),
                 'services.description'   => $DTO->getDescription(),
-                'services.user_id'       => $this->authUserService->getUserId(),
+                'services.user_id'       => $DTO->getUserId(),
                 'services.price'         => $DTO->getPrice(),
                 'services.city_id'       => $DTO->getCityId(),
                 'services.updated_at'    => Carbon::now(),
@@ -145,6 +145,13 @@ class ServiceRepository
         $this->query
             ->where('id', '=', $id)
             ->delete();
+    }
+
+    public function isExistsByCategoryId(int $categoryId): bool
+    {
+        return $this->query
+            ->where('services.category_id', '=', $categoryId)
+            ->exists();
     }
 
     /**

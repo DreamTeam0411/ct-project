@@ -1,34 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\API\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\City\CityDestroyRequest;
-use App\Http\Requests\City\CityIndexRequest;
-use App\Http\Requests\City\CityShowRequest;
-use App\Http\Requests\City\CityStoreRequest;
-use App\Http\Requests\City\CityUpdateRequest;
-use App\Http\Resources\City\CityResource;
-use App\Repositories\Cities\CityStoreDTO;
-use App\Repositories\Cities\CityUpdateDTO;
-use App\Services\City\CityService;
+use App\Http\Requests\AdminService\AdminServiceDestroyRequest;
+use App\Http\Requests\AdminService\AdminServiceIndexRequest;
+use App\Http\Requests\AdminService\AdminServiceShowRequest;
+use App\Http\Requests\AdminService\AdminServiceStoreRequest;
+use App\Http\Requests\AdminService\AdminServiceUpdateRequest;
+use App\Http\Resources\Service\ServiceResource;
+use App\Repositories\Services\AdminServiceStoreDTO;
+use App\Repositories\Services\ServiceUpdateDTO;
+use App\Services\Service\ServiceService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 
-class CityController extends Controller
+class AdminServiceController extends Controller
 {
+    /**
+     * @param ServiceService $service
+     */
     public function __construct(
-        protected CityService $cityService,
+        protected ServiceService $service,
     ) {
     }
 
     /**
-     * @param CityIndexRequest $request
+     * @param AdminServiceIndexRequest $request
      * @return JsonResponse
      */
     #[OA\Get(
-        path: '/v1/admin/cities',
+        path: '/v1/admin/services',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
@@ -45,12 +48,12 @@ class CityController extends Controller
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Show all cities',
+                description: 'Show all services',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/City',
+                            ref: '#/components/schemas/Service',
                         ),
                     ],
                 ),
@@ -64,61 +67,94 @@ class CityController extends Controller
             ),
         ],
     )]
-    public function index(CityIndexRequest $request): JsonResponse
+    public function index(AdminServiceIndexRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $service = $this->cityService->getAllCitiesByLastId($validated['lastId']);
-        $resource = CityResource::collection($service);
+        $service = $this->service->getPrivateServices($validated['lastId']);
+        $resource = ServiceResource::collection($service);
 
         return $resource->response()->setStatusCode(200);
     }
 
     /**
-     * @param CityStoreRequest $request
+     * @param AdminServiceStoreRequest $request
      * @return JsonResponse
      */
     #[OA\Post(
-        path: '/v1/admin/cities',
+        path: '/v1/admin/services',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
             new OA\Parameter(
-                name: 'countryId',
-                description: 'Country ID',
+                name: 'categoryId',
+                description: 'Only existing Category ID',
                 in: 'query',
                 required: true,
                 schema: new OA\Schema(
                     type: 'integer',
+                    minimum: 1,
                 ),
             ),
             new OA\Parameter(
-                name: 'parentId',
-                description: 'Parent Category ID',
+                name: 'title',
+                description: 'max: 255',
                 in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    maxLength: 255,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'description',
+                description: 'max: 500',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    maxLength: 500,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'userId',
+                description: 'Only existing User ID',
+                in: 'query',
+                required: true,
                 schema: new OA\Schema(
                     type: 'integer',
-                    nullable: true,
+                    minimum: 1,
                 ),
             ),
             new OA\Parameter(
-               name: 'name',
-                description: 'Name of the city',
-               in: 'query',
-               required: true,
-               schema: new OA\Schema(
-                   type: 'string',
-               ),
+                name: 'price',
+                description: 'regex in format: 999.99',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'number',
+                    format: 'double',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'cityId',
+                description: 'Only existing City ID',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    minimum: 1,
+                ),
             ),
         ],
         responses: [
             new OA\Response(
                 response: 201,
-                description: 'Created city',
+                description: 'Create new service',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/City',
+                            ref: '#/components/schemas/Service',
                         ),
                     ],
                 ),
@@ -132,44 +168,44 @@ class CityController extends Controller
             ),
         ],
     )]
-    public function store(CityStoreRequest $request): JsonResponse
+    public function store(AdminServiceStoreRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $DTO = new CityStoreDTO(...$validated);
-        $service = $this->cityService->insertAndGetCity($DTO);
-        $resource = new CityResource($service);
+        $DTO = new AdminServiceStoreDTO(...$validated);
+        $service = $this->service->insertAndGetService($DTO);
+        $resource = new ServiceResource($service);
 
         return $resource->response()->setStatusCode(201);
     }
 
     /**
-     * @param CityShowRequest $request
+     * @param AdminServiceShowRequest $request
      * @return JsonResponse
      */
     #[OA\Get(
-        path: '/v1/admin/cities/{id}',
+        path: '/v1/admin/services/{id}',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
             new OA\Parameter(
                 name: 'id',
-                description: 'City ID',
                 in: 'path',
                 required: true,
                 schema: new OA\Schema(
                     type: 'integer',
+                    minimum: 1,
                 ),
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Show information about the city',
+                description: 'Show the service',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/City',
+                            ref: '#/components/schemas/Service',
                         ),
                     ],
                 ),
@@ -183,70 +219,103 @@ class CityController extends Controller
             ),
         ],
     )]
-    public function show(CityShowRequest $request): JsonResponse
+    public function show(AdminServiceShowRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $service = $this->cityService->getById($validated['id']);
-        $resource = new CityResource($service);
+        $service = $this->service->getById($validated['id']);
+        $resource = new ServiceResource($service);
 
         return $resource->response()->setStatusCode(200);
     }
 
     /**
-     * @param CityUpdateRequest $request
+     * @param AdminServiceUpdateRequest $request
      * @return JsonResponse
      */
     #[OA\Patch(
-        path: '/v1/admin/cities/{id}',
+        path: '/v1/admin/services/{id}',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
             new OA\Parameter(
                 name: 'id',
-                description: 'City ID',
                 in: 'path',
                 required: true,
                 schema: new OA\Schema(
                     type: 'integer',
+                    minimum: 1,
                 ),
             ),
             new OA\Parameter(
-                name: 'countryId',
-                description: 'Country ID',
+                name: 'categoryId',
+                description: 'Only existing Category ID',
                 in: 'query',
                 required: true,
                 schema: new OA\Schema(
                     type: 'integer',
+                    minimum: 1,
                 ),
             ),
             new OA\Parameter(
-                name: 'parentId',
-                description: 'Parent Category ID',
-                in: 'query',
-                schema: new OA\Schema(
-                    type: 'integer',
-                    nullable: true,
-                ),
-            ),
-            new OA\Parameter(
-                name: 'name',
-                description: 'Name of the city',
+                name: 'title',
+                description: 'max: 255',
                 in: 'query',
                 required: true,
                 schema: new OA\Schema(
                     type: 'string',
+                    maxLength: 255,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'description',
+                description: 'max: 500',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    maxLength: 500,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'userId',
+                description: 'Only existing User ID',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    minimum: 1,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'price',
+                description: 'regex in format: 999.99',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'number',
+                    format: 'double',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'cityId',
+                description: 'Only existing City ID',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    minimum: 1,
                 ),
             ),
         ],
         responses: [
             new OA\Response(
                 response: 200,
-                description: 'Show information about updated city',
+                description: 'Show updated service',
                 content: new OA\JsonContent(
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/City',
+                            ref: '#/components/schemas/Service',
                         ),
                     ],
                 ),
@@ -260,46 +329,53 @@ class CityController extends Controller
             ),
         ],
     )]
-    public function update(CityUpdateRequest $request): JsonResponse
+    public function update(AdminServiceUpdateRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $DTO = new CityUpdateDTO(...$validated);
-        $service = $this->cityService->update($DTO);
-        $resource = new CityResource($service);
+        $DTO = new ServiceUpdateDTO(...$validated);
+        $service = $this->service->updateAndGetById($DTO);
+        $resource = new ServiceResource($service);
 
         return $resource->response()->setStatusCode(200);
     }
 
     /**
-     * @param CityDestroyRequest $request
+     * @param AdminServiceDestroyRequest $request
      * @return Response
      */
     #[OA\Delete(
-        path: '/v1/admin/cities/{id}',
+        path: '/v1/admin/services/{id}',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
             new OA\Parameter(
                 name: 'id',
-                description: 'City ID',
                 in: 'path',
                 required: true,
                 schema: new OA\Schema(
                     type: 'integer',
+                    minimum: 1,
                 ),
             ),
         ],
         responses: [
             new OA\Response(
                 response: 204,
-                description: 'The city has been deleted',
+                description: 'Delete the service',
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation errors',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/ValidationErrors'
+                )
             ),
         ],
     )]
-    public function destroy(CityDestroyRequest $request): Response
+    public function destroy(AdminServiceDestroyRequest $request): Response
     {
         $validated = $request->validated();
-        $this->cityService->delete($validated['id']);
+        $this->service->deleteById($validated['id']);
 
         return response()->noContent();
     }

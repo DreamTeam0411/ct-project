@@ -1,4 +1,4 @@
-PATCH http://{{host}}/api/v1/cities/{{id}}
+PATCH http://{{host}}/api/v1/admin/cities/{{id}}
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}

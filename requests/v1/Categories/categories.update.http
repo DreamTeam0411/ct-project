@@ -1,4 +1,4 @@
-PATCH http://{{host}}/api/v1/categories/{{id}}
+PATCH http://{{host}}/api/v1/admin/categories/{{id}}
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
