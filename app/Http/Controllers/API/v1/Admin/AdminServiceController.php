@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminService\AdminServiceDestroyRequest;
-use App\Http\Requests\AdminService\AdminServiceIndexRequest;
-use App\Http\Requests\AdminService\AdminServiceShowRequest;
-use App\Http\Requests\AdminService\AdminServiceStoreRequest;
-use App\Http\Requests\AdminService\AdminServiceUpdateRequest;
+use App\Http\Requests\Admin\AdminService\AdminServiceDestroyRequest;
+use App\Http\Requests\Admin\AdminService\AdminServiceIndexRequest;
+use App\Http\Requests\Admin\AdminService\AdminServiceShowRequest;
+use App\Http\Requests\Admin\AdminService\AdminServiceStoreRequest;
+use App\Http\Requests\Admin\AdminService\AdminServiceUpdateRequest;
 use App\Http\Resources\Service\ServiceResource;
 use App\Repositories\Services\AdminServiceStoreDTO;
 use App\Repositories\Services\ServiceUpdateDTO;

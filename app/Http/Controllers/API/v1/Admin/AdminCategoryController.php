@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category\CategoryDestroyRequest;
-use App\Http\Requests\Category\CategoryIndexRequest;
-use App\Http\Requests\Category\CategoryShowRequest;
-use App\Http\Requests\Category\CategoryStoreRequest;
-use App\Http\Requests\Category\CategoryUpdateRequest;
+use App\Http\Requests\Admin\AdminCategory\CategoryDestroyRequest;
+use App\Http\Requests\Admin\AdminCategory\CategoryIndexRequest;
+use App\Http\Requests\Admin\AdminCategory\CategoryShowRequest;
+use App\Http\Requests\Admin\AdminCategory\CategoryStoreRequest;
+use App\Http\Requests\Admin\AdminCategory\CategoryUpdateRequest;
 use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Errors\ExceptionResource;
 use App\Repositories\Categories\CategoryStoreDTO;

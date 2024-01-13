@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Admin\AdminCity;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;

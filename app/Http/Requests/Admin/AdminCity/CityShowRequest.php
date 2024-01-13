@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Admin\AdminCity;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CityIndexRequest extends FormRequest
+class CityShowRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,17 +15,14 @@ class CityIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'lastId' => ['integer', 'min:0']
+            'id' => ['integer', 'exists:cities,id', 'required'],
         ];
     }
 
-    /**
-     * @return void
-     */
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'lastId' => $this->lastId ?? 0,
+            'id' => $this->route('city'),
         ]);
     }
 }

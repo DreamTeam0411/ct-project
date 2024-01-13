@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Admin\AdminCategory;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryDestroyRequest extends FormRequest
+class CategoryShowRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -22,7 +22,7 @@ class CategoryDestroyRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => $this->route('category')
+            'id' => $this->route('category'),
         ]);
     }
 }

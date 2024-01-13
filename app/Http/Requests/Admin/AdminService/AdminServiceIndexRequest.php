@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Admin\AdminService;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryShowRequest extends FormRequest
+class AdminServiceIndexRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,14 +15,17 @@ class CategoryShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['integer', 'exists:categories,id', 'required']
+            'lastId' => ['integer', 'min:0'],
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => $this->route('category'),
+            'lastId' => $this->lastId ?? 0,
         ]);
     }
 }

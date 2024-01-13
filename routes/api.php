@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\v1\Admin\AdminCategoryController;
 use App\Http\Controllers\API\v1\Admin\AdminCityController;
+use App\Http\Controllers\API\v1\Admin\AdminHomePageController;
 use App\Http\Controllers\API\v1\Admin\AdminServiceController;
 use App\Http\Controllers\API\v1\Authentication\AuthenticationController;
 use App\Http\Controllers\API\v1\Authentication\EmailVerificationController;
@@ -27,7 +28,7 @@ Route::get('swagger', function () {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('/homepage', [HomePageController::class, 'index'])->name('title.page');
+    Route::get('/homepage', [HomePageController::class, 'index'])->name('home.page');
     //TODO: Unit tests for auth services
     Route::get('/email-verify/{id}', [EmailVerificationController::class, 'verify'])
         ->name('verification.verify');
@@ -49,6 +50,9 @@ Route::group(['prefix' => 'v1'], function () {
             Route::apiResource('cities', AdminCityController::class);
             Route::apiResource('categories', AdminCategoryController::class);
             Route::apiResource('services', AdminServiceController::class);
+
+            Route::patch('/homepage/footer-update', [AdminHomePageController::class , 'footerUpdate'])
+                ->name('admin.homepage.footer-update');
         });
     });
 

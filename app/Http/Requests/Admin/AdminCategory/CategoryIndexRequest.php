@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Admin\AdminCategory;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CityDestroyRequest extends FormRequest
+class CategoryIndexRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,14 +15,14 @@ class CityDestroyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['integer', 'required', 'exists:cities,id']
+            'lastId' => ['integer', 'min:0']
         ];
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => $this->route('city'),
+            'lastId' => $this->lastId ?? 0,
         ]);
     }
 }

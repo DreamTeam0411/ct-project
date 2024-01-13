@@ -573,6 +573,65 @@
                 ]
             }
         },
+        "/v1/admin/homepage/footer-update": {
+            "patch": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "a8873fd05e7819d2c7442ff0a0f8f2d9",
+                "parameters": [
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "privacyPolicyLink",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show updated footer info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Footer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/v1/admin/services": {
             "get": {
                 "tags": [
@@ -1729,6 +1788,10 @@
                 "properties": {
                     "description": {
                         "type": "string"
+                    },
+                    "privacyPolicyLink": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"

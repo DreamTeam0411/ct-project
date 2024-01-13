@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Admin\AdminCity;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CityShowRequest extends FormRequest
+class CityDestroyRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,7 +15,7 @@ class CityShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['integer', 'exists:cities,id', 'required'],
+            'id' => ['integer', 'required', 'exists:cities,id']
         ];
     }
 

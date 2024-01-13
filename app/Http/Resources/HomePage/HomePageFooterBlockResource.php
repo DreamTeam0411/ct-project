@@ -20,6 +20,11 @@ class HomePageFooterBlockResource extends JsonResource
                 property: 'description',
                 type: 'string',
             ),
+            new OA\Property(
+                property: 'privacyPolicyLink',
+                type: 'string',
+                nullable: true,
+            ),
         ]
     )]
     public function toArray(Request $request): array
@@ -28,7 +33,8 @@ class HomePageFooterBlockResource extends JsonResource
         $resource = $this->resource;
 
         return [
-            'description' => $resource->getDescription(),
+            'description'       => $resource->getDescription(),
+            'privacyPolicyLink' => $resource->getPrivacyPolicyLink(),
         ];
     }
 }

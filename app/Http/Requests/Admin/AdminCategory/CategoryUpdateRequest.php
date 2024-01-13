@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\City;
+namespace App\Http\Requests\Admin\AdminCategory;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CityUpdateRequest extends FormRequest
+class CategoryUpdateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,17 +15,16 @@ class CityUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id'        => ['integer', 'required', 'exists:cities,id'],
-            'countryId' => ['integer', 'exists:countries,id'],
-            'parentId'  => ['integer', 'nullable', 'exists:cities,id'],
-            'name'      => ['string', 'max:255'],
+            'id'        => ['integer', 'required', 'exists:categories,id'],
+            'parentId'  => ['integer', 'nullable', 'exists:categories,id'],
+            'title'     => ['string'],
         ];
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id'        => $this->route('city'),
+            'id'        => $this->route('category'),
             'parentId'  => $this->parentId ?? null,
         ]);
     }

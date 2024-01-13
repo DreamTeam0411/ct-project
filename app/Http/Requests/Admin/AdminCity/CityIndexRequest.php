@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\AdminService;
+namespace App\Http\Requests\Admin\AdminCity;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminServiceShowRequest extends FormRequest
+class CityIndexRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,14 +15,17 @@ class AdminServiceShowRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['integer', 'required', 'exists:services,id']
+            'lastId' => ['integer', 'min:0']
         ];
     }
 
+    /**
+     * @return void
+     */
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id' => $this->route('service'),
+            'lastId' => $this->lastId ?? 0,
         ]);
     }
 }

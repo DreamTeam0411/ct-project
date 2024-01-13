@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API\v1\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\City\CityDestroyRequest;
-use App\Http\Requests\City\CityIndexRequest;
-use App\Http\Requests\City\CityShowRequest;
-use App\Http\Requests\City\CityStoreRequest;
-use App\Http\Requests\City\CityUpdateRequest;
+use App\Http\Requests\Admin\AdminCity\CityDestroyRequest;
+use App\Http\Requests\Admin\AdminCity\CityIndexRequest;
+use App\Http\Requests\Admin\AdminCity\CityShowRequest;
+use App\Http\Requests\Admin\AdminCity\CityStoreRequest;
+use App\Http\Requests\Admin\AdminCity\CityUpdateRequest;
 use App\Http\Resources\City\CityResource;
 use App\Repositories\Cities\CityStoreDTO;
 use App\Repositories\Cities\CityUpdateDTO;
