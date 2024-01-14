@@ -8,7 +8,7 @@ use App\Http\Requests\Admin\AdminService\AdminServiceIndexRequest;
 use App\Http\Requests\Admin\AdminService\AdminServiceShowRequest;
 use App\Http\Requests\Admin\AdminService\AdminServiceStoreRequest;
 use App\Http\Requests\Admin\AdminService\AdminServiceUpdateRequest;
-use App\Http\Resources\Service\ServiceResource;
+use App\Http\Resources\Service\AdminServiceResource;
 use App\Repositories\Services\AdminServiceStoreDTO;
 use App\Repositories\Services\ServiceUpdateDTO;
 use App\Services\Service\ServiceService;
@@ -53,7 +53,7 @@ class AdminServiceController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/Service',
+                            ref: '#/components/schemas/AdminService',
                         ),
                     ],
                 ),
@@ -71,7 +71,7 @@ class AdminServiceController extends Controller
     {
         $validated = $request->validated();
         $service = $this->service->getPrivateServices($validated['lastId']);
-        $resource = ServiceResource::collection($service);
+        $resource = AdminServiceResource::collection($service);
 
         return $resource->response()->setStatusCode(200);
     }
@@ -154,7 +154,7 @@ class AdminServiceController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/Service',
+                            ref: '#/components/schemas/AdminService',
                         ),
                     ],
                 ),
@@ -173,7 +173,7 @@ class AdminServiceController extends Controller
         $validated = $request->validated();
         $DTO = new AdminServiceStoreDTO(...$validated);
         $service = $this->service->insertAndGetService($DTO);
-        $resource = new ServiceResource($service);
+        $resource = new AdminServiceResource($service);
 
         return $resource->response()->setStatusCode(201);
     }
@@ -205,7 +205,7 @@ class AdminServiceController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/Service',
+                            ref: '#/components/schemas/AdminService',
                         ),
                     ],
                 ),
@@ -223,7 +223,7 @@ class AdminServiceController extends Controller
     {
         $validated = $request->validated();
         $service = $this->service->getById($validated['id']);
-        $resource = new ServiceResource($service);
+        $resource = new AdminServiceResource($service);
 
         return $resource->response()->setStatusCode(200);
     }
@@ -315,7 +315,7 @@ class AdminServiceController extends Controller
                     properties: [
                         new OA\Property(
                             property: 'data',
-                            ref: '#/components/schemas/Service',
+                            ref: '#/components/schemas/AdminService',
                         ),
                     ],
                 ),
@@ -334,7 +334,7 @@ class AdminServiceController extends Controller
         $validated = $request->validated();
         $DTO = new ServiceUpdateDTO(...$validated);
         $service = $this->service->updateAndGetById($DTO);
-        $resource = new ServiceResource($service);
+        $resource = new AdminServiceResource($service);
 
         return $resource->response()->setStatusCode(200);
     }

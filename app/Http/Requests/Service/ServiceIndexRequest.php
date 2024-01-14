@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin\AdminHomePage;
+namespace App\Http\Requests\Service;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FooterUpdateRequest extends FormRequest
+class ServiceIndexRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,9 +15,7 @@ class FooterUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description'           => ['string', 'max:255'],
-            'privacyPolicyLink'     => ['string', 'max:255', 'nullable'],
-            'termsAndCondition'     => ['string', 'max:255', 'nullable'],
+
         ];
     }
 }

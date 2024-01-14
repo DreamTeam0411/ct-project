@@ -2,6 +2,7 @@
 
 namespace App\Repositories\UserRepository;
 
+use App\Enums\Role;
 use App\Repositories\UserRepository\Iterators\UserIterator;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -61,7 +62,7 @@ class UserRepository
                 ]);
     }
 
-    public function isUserHasRole(int $userId, int $roleId): bool
+    public function isUserHasRole(int $userId, Role $role): bool
     {
         return $this->query
             ->select([
@@ -77,7 +78,7 @@ class UserRepository
             ->join('role_user', 'users.id', '=', 'user_id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->where('users.id', '=', $userId)
-            ->where('role_user.role_id', '=', $roleId)
+            ->where('role_user.role_id', '=', $role->value)
             ->exists();
     }
 

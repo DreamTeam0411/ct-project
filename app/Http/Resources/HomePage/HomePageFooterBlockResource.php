@@ -25,6 +25,11 @@ class HomePageFooterBlockResource extends JsonResource
                 type: 'string',
                 nullable: true,
             ),
+            new OA\Property(
+                property: 'termsAndCondition',
+                type: 'string',
+                nullable: true,
+            ),
         ]
     )]
     public function toArray(Request $request): array
@@ -35,6 +40,7 @@ class HomePageFooterBlockResource extends JsonResource
         return [
             'description'       => $resource->getDescription(),
             'privacyPolicyLink' => $resource->getPrivacyPolicyLink(),
+            'termsAndCondition' => $resource->getTermsAndCondition(),
         ];
     }
 }

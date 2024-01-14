@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
-class ServiceResource extends JsonResource
+class AdminServiceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class ServiceResource extends JsonResource
      * @return array<string, mixed>
      */
     #[OA\Schema(
-        schema: 'Service',
+        schema: 'AdminService',
         description: 'Show information about service',
         properties: [
             new OA\Property(
@@ -38,25 +38,7 @@ class ServiceResource extends JsonResource
             ),
             new OA\Property(
                 property: 'user',
-                properties: [
-                    new OA\Property(
-                        property: 'id',
-                        type: 'integer',
-                    ),
-                    new OA\Property(
-                        property: 'firstName',
-                        type: 'string',
-                    ),
-                    new OA\Property(
-                        property: 'lastName',
-                        type: 'string',
-                    ),
-                    new OA\Property(
-                        property: 'email',
-                        type: 'string',
-                    ),
-                ],
-                type: 'object',
+                ref: '#/components/schemas/Support'
             ),
             new OA\Property(
                 property: 'price',

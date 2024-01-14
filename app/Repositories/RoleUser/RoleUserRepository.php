@@ -2,7 +2,7 @@
 
 namespace App\Repositories\RoleUser;
 
-use App\Models\Role;
+use App\Enums\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
@@ -18,12 +18,13 @@ class RoleUserRepository
 
     /**
      * @param int $userId
+     * @param Role $role
      * @return void
      */
-    public function setAdminRole(int $userId): void
+    public function setRole(int $userId, Role $role): void
     {
         $this->query->insert([
-            'role_id'       => Role::IS_ADMIN,
+            'role_id'       => $role->value,
             'user_id'       => $userId,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
@@ -37,7 +38,7 @@ class RoleUserRepository
     public function setCustomerRole(int $userId): void
     {
         $this->query->insert([
-            'role_id'       => Role::IS_CUSTOMER,
+            'role_id'       => Role::IS_CUSTOMER->value,
             'user_id'       => $userId,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),

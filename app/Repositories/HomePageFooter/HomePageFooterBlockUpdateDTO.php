@@ -6,7 +6,8 @@ class HomePageFooterBlockUpdateDTO
 {
     public function __construct(
         protected string $description,
-        protected string|null $privacyPolicyLink = null,
+        protected string $privacyPolicyLink = '',
+        protected string $termsAndCondition = '',
     ){
     }
 
@@ -19,10 +20,18 @@ class HomePageFooterBlockUpdateDTO
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getPrivacyPolicyLink(): ?string
+    public function getPrivacyPolicyLink(): string
     {
         return $this->privacyPolicyLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTermsAndCondition(): string
+    {
+        return $this->termsAndCondition;
     }
 }

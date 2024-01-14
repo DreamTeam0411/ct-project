@@ -43,6 +43,15 @@ class AdminHomePageController extends Controller
                     nullable: true,
                 )
             ),
+            new OA\Parameter(
+                name: 'termsAndCondition',
+                in: 'query',
+                schema: new OA\Schema(
+                    type: 'string',
+                    maxLength: 255,
+                    nullable: true,
+                )
+            ),
         ],
         responses: [
             new OA\Response(

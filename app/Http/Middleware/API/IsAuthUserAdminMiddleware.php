@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware\API;
 
-use App\Models\Role;
+use App\Enums\Role;
 use App\Repositories\UserRepository\UserRepository;
 use App\Services\Users\AuthUserService;
 use Closure;

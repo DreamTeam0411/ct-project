@@ -26,7 +26,8 @@ class HomePageFooterBlockRepository
             $this->query
                 ->select([
                     'home_page_footer_block.description',
-                    'home_page_footer_block.privacy_policy_link'
+                    'home_page_footer_block.privacy_policy_link',
+                    'home_page_footer_block.terms_and_condition',
                 ])
                 ->where('id', '=', self::ID)
                 ->first()
@@ -44,6 +45,7 @@ class HomePageFooterBlockRepository
             ->update([
                 'description'           => $DTO->getDescription(),
                 'privacy_policy_link'   => $DTO->getPrivacyPolicyLink(),
+                'terms_and_condition'   => $DTO->getTermsAndCondition(),
                 'updated_at'            => Carbon::now(),
             ]);
     }

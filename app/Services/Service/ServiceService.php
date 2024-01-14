@@ -29,6 +29,15 @@ class ServiceService
     }
 
     /**
+     * @param int $lastId
+     * @return Collection
+     */
+    public function getPublicServices(int $lastId = 0): Collection
+    {
+        return $this->serviceRepository->getPublicServices($lastId);
+    }
+
+    /**
      * @param AdminServiceStoreDTO $DTO
      * @return PrivateServiceIterator
      */

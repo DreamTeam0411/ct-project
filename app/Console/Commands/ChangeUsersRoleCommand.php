@@ -2,19 +2,19 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Role;
+use App\Enums\Role;
 use App\Repositories\RoleUser\RoleUserRepository;
 use App\Repositories\UserRepository\UserRepository;
 use Illuminate\Console\Command;
 
-class CreateAdminUserCommand extends Command
+class ChangeUsersRoleCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'user:AdminRoleByEmail {email}';
+    protected $signature = 'user:roleChange {email}';
 
     /**
      * The console command description.
@@ -35,14 +35,23 @@ class CreateAdminUserCommand extends Command
 
         $user = $userRepository->getUserByEmail($this->argument('email'));
 
-        if ($userRepository->isUserHasRole($user->getId(), Role::IS_ADMIN)) {
-            $this->warn('User has Admin role already.');
-            return;
-        }
+        $roleName = $this->choice('Choose user\'s role?', [
+            Role::IS_ADMIN->value       => 'Admin',
+            Role::IS_SUPPORT->value     => 'Support',
+            Role::IS_BUSINESS->value    => 'Business',
+            Role::IS_CUSTOMER->value    => 'Customer',
+        ], 'Customer');
+
+        $role = match ($roleName) {
+            'Admin'     => Role::IS_ADMIN,
+            'Support'   => Role::IS_SUPPORT,
+            'Business'  => Role::IS_BUSINESS,
+            'Customer'  => Role::IS_CUSTOMER,
+        };
 
         $roleUserRepository->deleteAllRoles($user->getId());
-        $roleUserRepository->setAdminRole($user->getId());
+        $roleUserRepository->setRole($user->getId(), $role);
 
-        $this->info('User with ' . $user->getEmail() . ' mail got Admin role.');
+        $this->info('User with ' . $user->getEmail() . ' mail got ' . $roleName . ' role.');
     }
 }

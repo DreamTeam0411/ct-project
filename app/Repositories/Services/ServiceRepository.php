@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Services;
 
+use App\Enums\Role;
 use App\Repositories\Services\Iterators\PrivateServiceIterator;
+use App\Repositories\Services\Iterators\PublicServiceIterator;
 use App\Repositories\Services\Iterators\TitlePageServiceIterator;
 use App\Services\Users\AuthUserService;
 use Carbon\Carbon;
@@ -20,7 +22,10 @@ class ServiceRepository
         $this->query = DB::table('services');
     }
 
-    public function getServicesForTitlePage()
+    /**
+     * @return Collection
+     */
+    public function getServicesForTitlePage(): Collection
     {
         $collection = $this->query->select(
             DB::raw('services.id, services.title, services.description, AVG(reviews.rating) as rating')
@@ -37,6 +42,10 @@ class ServiceRepository
         });
     }
 
+    /**
+     * @param int $lastId
+     * @return Collection
+     */
     public function getPrivateServices(int $lastId): Collection
     {
         $collection = $this->query
@@ -47,6 +56,7 @@ class ServiceRepository
                 'categories.slug',
                 'services.title AS service_title',
                 'services.description',
+                'services.photo',
                 'services.user_id',
                 'users.first_name',
                 'users.last_name',
@@ -67,10 +77,54 @@ class ServiceRepository
             ->get();
 
         return $collection->map(function ($service) {
-            return $this->getIterator($service);
+            return $this->getPrivateIterator($service);
         });
     }
 
+    /**
+     * @param int $lastId
+     * @return Collection
+     */
+    public function getPublicServices(int $lastId): Collection
+    {
+        $collection = $this->query
+            ->select([
+                'services.id',
+                'services.category_id',
+                'categories.title AS category_title',
+                'categories.slug',
+                'services.title AS service_title',
+                'services.description',
+                'services.photo',
+                'services.user_id',
+                'users.first_name',
+                'users.last_name',
+                'users.phone_number',
+                'users.email',
+                'users.address',
+                'services.price',
+                'cities.name AS city_name',
+                'cities.slug AS city_slug',
+                'services.created_at',
+            ])
+            ->join('categories', 'services.category_id', '=', 'categories.id')
+            ->join('users', 'services.user_id', '=', 'users.id')
+            ->join('cities', 'services.city_id', '=', 'cities.id')
+            ->join('role_user', 'services.user_id', '=', 'role_user.user_id')
+            ->where('services.id', '>', $lastId)
+            ->where('role_user.role_id', '=', Role::IS_BUSINESS->value)
+            ->orderBy('services.id', 'ASC')
+            ->get();
+
+        return $collection->map(function ($service) {
+            return $this->getPublicIterator($service);
+        });
+    }
+
+    /**
+     * @param AdminServiceStoreDTO $DTO
+     * @return int
+     */
     public function insertAndGetId(AdminServiceStoreDTO $DTO): int
     {
         return $this->query
@@ -97,6 +151,7 @@ class ServiceRepository
                 'services.title AS service_title',
                 'services.description',
                 'services.user_id',
+                'services.photo',
                 'users.first_name',
                 'users.last_name',
                 'users.email',
@@ -114,7 +169,7 @@ class ServiceRepository
             ->first();
 
 
-        return $this->getIterator($query);
+        return $this->getPrivateIterator($query);
     }
 
     /**
@@ -158,31 +213,63 @@ class ServiceRepository
      * @param object|null $query
      * @return PrivateServiceIterator
      */
-    protected function getIterator(object|null $query): PrivateServiceIterator
+    protected function getPrivateIterator(object|null $query): PrivateServiceIterator
     {
         return new PrivateServiceIterator((object)[
             'id' => $query->id,
             'category' => (object)[
-                'id' => $query->category_id,
+                'id'    => $query->category_id,
                 'title' => $query->category_title,
-                'slug' => $query->slug,
+                'slug'  => $query->slug,
             ],
-            'title' => $query->service_title,
-            'description' => $query->description,
+            'title'         => $query->service_title,
+            'description'   => $query->description,
+            'photo'         => $query->photo,
             'user' => (object)[
-                'id' => $query->user_id,
+                'id'        => $query->user_id,
                 'firstName' => $query->first_name,
-                'lastName' => $query->last_name,
-                'email' => $query->email,
+                'lastName'  => $query->last_name,
+                'email'     => $query->email,
             ],
             'price' => $query->price,
             'city' => (object)[
-                'id' => $query->city_id,
+                'id'    => $query->city_id,
+                'name'  => $query->city_name,
+                'slug'  => $query->city_slug,
+            ],
+            'createdAt' => $query->created_at,
+            'updatedAt' => $query->updated_at,
+        ]);
+    }
+
+    /**
+     * @param object|null $query
+     * @return PublicServiceIterator
+     */
+    protected function getPublicIterator(object|null $query): PublicServiceIterator
+    {
+        return new PublicServiceIterator((object)[
+            'id' => $query->id,
+            'category' => (object)[
+                'title' => $query->category_title,
+                'slug'  => $query->slug,
+            ],
+            'title'         => $query->service_title,
+            'description'   => $query->description,
+            'photo'         => $query->photo,
+            'user' => (object)[
+                'id' => $query->user_id,
+                'firstName'     => $query->first_name,
+                'lastName'      => $query->last_name,
+                'phoneNumber'   => $query->phone_number,
+                'address'       => $query->address,
+            ],
+            'price' => $query->price,
+            'city' => (object)[
                 'name' => $query->city_name,
                 'slug' => $query->city_slug,
             ],
             'createdAt' => $query->created_at,
-            'updatedAt' => $query->updated_at,
         ]);
     }
 }

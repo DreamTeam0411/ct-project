@@ -596,6 +596,15 @@
                             "maxLength": 255,
                             "nullable": true
                         }
+                    },
+                    {
+                        "name": "termsAndCondition",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "nullable": true
+                        }
                     }
                 ],
                 "responses": {
@@ -657,7 +666,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Service"
+                                            "$ref": "#/components/schemas/AdminService"
                                         }
                                     },
                                     "type": "object"
@@ -757,7 +766,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Service"
+                                            "$ref": "#/components/schemas/AdminService"
                                         }
                                     },
                                     "type": "object"
@@ -808,7 +817,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Service"
+                                            "$ref": "#/components/schemas/AdminService"
                                         }
                                     },
                                     "type": "object"
@@ -954,7 +963,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/components/schemas/Service"
+                                            "$ref": "#/components/schemas/AdminService"
                                         }
                                     },
                                     "type": "object"
@@ -1564,6 +1573,41 @@
                     }
                 }
             }
+        },
+        "/v1/all-services": {
+            "get": {
+                "tags": [
+                    "Service"
+                ],
+                "operationId": "f847e1790b221c37c3fcaafcf5dbf0e5",
+                "responses": {
+                    "200": {
+                        "description": "Show all services",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PublicService"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1627,6 +1671,18 @@
                     "id": {
                         "type": "integer"
                     },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CityNameAndSlug": {
+                "description": "Show information about city name and slug",
+                "properties": {
                     "title": {
                         "type": "string"
                     },
@@ -1792,6 +1848,10 @@
                     "privacyPolicyLink": {
                         "type": "string",
                         "nullable": true
+                    },
+                    "termsAndCondition": {
+                        "type": "string",
+                        "nullable": true
                     }
                 },
                 "type": "object"
@@ -1915,7 +1975,7 @@
                 },
                 "type": "object"
             },
-            "Service": {
+            "AdminService": {
                 "description": "Show information about service",
                 "properties": {
                     "id": {
@@ -1932,21 +1992,7 @@
                         "type": "integer"
                     },
                     "user": {
-                        "properties": {
-                            "id": {
-                                "type": "integer"
-                            },
-                            "firstName": {
-                                "type": "string"
-                            },
-                            "lastName": {
-                                "type": "string"
-                            },
-                            "email": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
+                        "$ref": "#/components/schemas/Support"
                     },
                     "price": {
                         "type": "number",
@@ -1986,6 +2032,64 @@
                     },
                     "createdAt": "2023-12-02 14:51:18",
                     "updatedAt": "2023-12-02 14:51:18"
+                }
+            },
+            "PublicService": {
+                "description": "Show information about service",
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "category": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "integer"
+                    },
+                    "photo": {
+                        "type": "string"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/Business"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/CityNameAndSlug"
+                    },
+                    "createdAt": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object",
+                "example": {
+                    "id": 1,
+                    "category": {
+                        "title": "Догляд за нігтями",
+                        "slug": "doglyad-za-nigtyami"
+                    },
+                    "title": "Заголовок послуги",
+                    "description": "Детальний опис послуги",
+                    "photo": null,
+                    "user": {
+                        "id": 32,
+                        "firstName": "Олена",
+                        "lastName": "Новікова",
+                        "photoNumber": "380970000000",
+                        "address": null
+                    },
+                    "price": 900.45,
+                    "city": {
+                        "name": "Київ",
+                        "slug": "ukrayina-kiyiv"
+                    },
+                    "createdAt": "2023-12-02 14:51:18"
                 }
             },
             "Bearer": {
@@ -2030,6 +2134,27 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "Business": {
+                "description": "Show information about user with business role",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
                     }
                 },
                 "type": "object"

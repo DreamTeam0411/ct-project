@@ -8,6 +8,7 @@ use App\Http\Controllers\API\v1\Authentication\AuthenticationController;
 use App\Http\Controllers\API\v1\Authentication\EmailVerificationController;
 use App\Http\Controllers\API\v1\Authentication\PasswordController;
 use App\Http\Controllers\API\v1\HomePageController;
+use App\Http\Controllers\API\v1\ServiceController;
 use App\Http\Middleware\API\GuestMiddleware;
 use App\Services\Swagger\SwaggerService;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::get('swagger', function () {
 
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/homepage', [HomePageController::class, 'index'])->name('home.page');
+    Route::get('/all-services', [ServiceController::class, 'index'])->name('services.index');
     //TODO: Unit tests for auth services
     Route::get('/email-verify/{id}', [EmailVerificationController::class, 'verify'])
         ->name('verification.verify');
