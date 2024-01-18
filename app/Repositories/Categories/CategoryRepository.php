@@ -5,6 +5,7 @@ namespace App\Repositories\Categories;
 use App\Repositories\Categories\Iterators\HomePageCategoryCollectionIterator;
 use App\Repositories\Categories\Iterators\HomePageCategoryIterator;
 use App\Repositories\Categories\Iterators\PrivateCategoryIterator;
+use App\Repositories\Categories\Iterators\SubcategoryIterator;
 use App\Services\Users\AuthUserService;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -22,8 +23,7 @@ class CategoryRepository
      */
     public function __construct(
         protected AuthUserService $authUserService,
-    )
-    {
+    ) {
         $this->query = DB::table('categories');
     }
 
@@ -74,6 +74,26 @@ class CategoryRepository
 
         return $collection->map(function ($category) {
             return $this->getPrivateCategoryIterator($category);
+        });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAllPublicCategories(): Collection
+    {
+        $collection = $this->query
+            ->select([
+                'categories.id',
+                'categories.title',
+                'categories.slug',
+            ])
+            ->where('categories.parent_id', '=', null)
+            ->take(100)
+            ->get();
+
+        return $collection->map(function ($category) {
+            return new SubcategoryIterator($category);
         });
     }
 

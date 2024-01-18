@@ -83,11 +83,11 @@ class ServiceRepository
 
     /**
      * @param int $lastId
-     * @return Collection
+     * @return Builder
      */
-    public function getPublicServices(int $lastId): Collection
+    public function getPublicServices(int $lastId): Builder
     {
-        $collection = $this->query
+        return $this->query
             ->select([
                 'services.id',
                 'services.category_id',
@@ -112,7 +112,27 @@ class ServiceRepository
             ->join('cities', 'services.city_id', '=', 'cities.id')
             ->join('role_user', 'services.user_id', '=', 'role_user.user_id')
             ->where('services.id', '>', $lastId)
-            ->where('role_user.role_id', '=', Role::IS_BUSINESS->value)
+            ->where('role_user.role_id', '=', Role::IS_BUSINESS->value);
+    }
+
+    public function queryCategorySlug(string $slug): Builder
+    {
+        return $this->query
+            ->where('categories.slug', '=', $slug);
+    }
+
+    public function queryCitySlug(string $slug): Builder
+    {
+        return $this->query
+            ->where('cities.slug', '=', $slug);
+    }
+
+    /**
+     * @return Collection<PublicServiceIterator>
+     */
+    public function getPublicServicesWithParams(): Collection
+    {
+        $collection = $this->query
             ->orderBy('services.id', 'ASC')
             ->get();
 

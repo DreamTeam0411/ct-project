@@ -28,6 +28,14 @@ class CityService
     }
 
     /**
+     * @return Collection
+     */
+    public function getAllPublicCities(): Collection
+    {
+        return $this->cityRepository->getAllPublicCities();
+    }
+
+    /**
      * @param CityStoreDTO $DTO
      * @return PrivateCityIterator
      */

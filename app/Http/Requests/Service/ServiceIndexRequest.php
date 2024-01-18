@@ -15,7 +15,8 @@ class ServiceIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'category'  => ['sometimes', 'string', 'max:255'],
+            'city'      => ['sometimes', 'string', 'max:255'],
         ];
     }
 }

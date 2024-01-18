@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\Category;
 
-use App\Repositories\Categories\Iterators\PrivateSubcategoryIterator;
+use App\Repositories\Categories\Iterators\SubcategoryIterator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Attributes as OA;
 
 class CategoryNameAndSlugResource extends JsonResource
 {
@@ -15,7 +16,7 @@ class CategoryNameAndSlugResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var PrivateSubcategoryIterator $resource */
+        /** @var SubcategoryIterator $resource */
         $resource = $this->resource;
 
         return [

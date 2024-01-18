@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Categories\Iterators;
 
-class PrivateSubcategoryIterator
+class SubcategoryIterator
 {
     protected int $id;
     protected string $title;

@@ -3,10 +3,11 @@
 namespace App\Services\Service;
 
 use App\Repositories\Services\Iterators\PrivateServiceIterator;
+use App\Repositories\Services\Iterators\PublicServiceIterator;
+use App\Repositories\Services\ServiceIndexDTO;
 use App\Repositories\Services\ServiceRepository;
 use App\Repositories\Services\AdminServiceStoreDTO;
 use App\Repositories\Services\ServiceUpdateDTO;
-use Exception;
 use Illuminate\Support\Collection;
 
 class ServiceService
@@ -29,12 +30,25 @@ class ServiceService
     }
 
     /**
+     * @param ServiceIndexDTO $DTO
      * @param int $lastId
-     * @return Collection
+     * @return Collection<PublicServiceIterator>
      */
-    public function getPublicServices(int $lastId = 0): Collection
-    {
-        return $this->serviceRepository->getPublicServices($lastId);
+    public function getPublicServices(
+        ServiceIndexDTO $DTO,
+        int $lastId = 0,
+    ): Collection {
+        $this->serviceRepository->getPublicServices($lastId);
+
+        if (is_null($DTO->getCategory()) === false) {
+            $this->serviceRepository->queryCategorySlug($DTO->getCategory());
+        }
+
+        if (is_null($DTO->getCity()) === false) {
+            $this->serviceRepository->queryCitySlug($DTO->getCity());
+        }
+
+        return $this->serviceRepository->getPublicServicesWithParams();
     }
 
     /**

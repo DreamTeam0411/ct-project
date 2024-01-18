@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Cities;
 
+use App\Repositories\Cities\Iterators\CityIdNameAndSlugIterator;
+use App\Repositories\Cities\Iterators\CityNameAndSlugIterator;
 use App\Repositories\Cities\Iterators\PrivateCityIterator;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -12,6 +14,8 @@ use Illuminate\Support\Str;
 class CityRepository
 {
     protected Builder $query;
+    public const COUNTRY = 'Україна';
+    public const UKRAINE_ID = 1;
 
     public function __construct()
     {
@@ -56,6 +60,28 @@ class CityRepository
         });
     }
 
+    public function getAllPublicCities()
+    {
+        $collection = $this->query
+            ->select([
+                'cities.id',
+                'cities.name',
+                'cities.slug',
+            ])
+            ->where('cities.parent_id', '=', null)
+            ->where('cities.country_id', '=', self::UKRAINE_ID)
+            ->take(100)
+            ->get();
+
+        return $collection->map(function ($city) {
+            return new CityIdNameAndSlugIterator((object)[
+                'id'            => $city->id,
+                'name'          => $city->name,
+                'slug'          => $city->slug,
+            ]);
+        });
+    }
+
     public function insertAndGetId(CityStoreDTO $DTO): int
     {
         return $this->query
@@ -63,7 +89,7 @@ class CityRepository
                 'country_id'    => $DTO->getCountryId(),
                 'parent_id'     => $DTO->getParentId(),
                 'name'          => $DTO->getName(),
-                'slug'          => Str::slug('Україна' . ' ' . $DTO->getName()),
+                'slug'          => Str::slug(self::COUNTRY . ' ' . $DTO->getName()),
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now(),
             ]);
@@ -112,7 +138,7 @@ class CityRepository
                 'country_id'    => $DTO->getCountryId(),
                 'parent_id'     => $DTO->getParentId(),
                 'name'          => $DTO->getName(),
-                'slug'          => Str::slug('Україна' . ' ' . $DTO->getName()),
+                'slug'          => Str::slug(self::COUNTRY . ' ' . $DTO->getName()),
                 'updated_at'    => Carbon::now(),
             ]);
     }

@@ -2,14 +2,14 @@
 
 namespace App\Repositories\Services\Iterators;
 
-use App\Repositories\Categories\Iterators\PrivateSubcategoryIterator;
+use App\Repositories\Categories\Iterators\SubcategoryIterator;
 use App\Repositories\Cities\Iterators\CityIdNameAndSlugIterator;
 use App\Repositories\UserRepository\Iterators\SupportIterator;
 
 class PrivateServiceIterator
 {
     protected int $id;
-    protected PrivateSubcategoryIterator $category;
+    protected SubcategoryIterator $category;
     protected string $title;
     protected string $description;
     protected SupportIterator $user;
@@ -21,7 +21,7 @@ class PrivateServiceIterator
     public function __construct(object $data)
     {
         $this->id           = $data->id;
-        $this->category     = new PrivateSubcategoryIterator($data->category);
+        $this->category     = new SubcategoryIterator($data->category);
         $this->title        = $data->title;
         $this->description  = $data->description;
         $this->user         = new SupportIterator($data->user);
@@ -40,9 +40,9 @@ class PrivateServiceIterator
     }
 
     /**
-     * @return PrivateSubcategoryIterator
+     * @return SubcategoryIterator
      */
-    public function getCategory(): PrivateSubcategoryIterator
+    public function getCategory(): SubcategoryIterator
     {
         return $this->category;
     }

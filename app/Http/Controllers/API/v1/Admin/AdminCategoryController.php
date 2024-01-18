@@ -12,7 +12,7 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Http\Resources\Errors\ExceptionResource;
 use App\Repositories\Categories\CategoryStoreDTO;
 use App\Repositories\Categories\CategoryUpdateDTO;
-use App\Services\Category\PrivateCategoryService;
+use App\Services\Category\CategoryService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -21,7 +21,7 @@ use OpenApi\Attributes as OA;
 class AdminCategoryController extends Controller
 {
     public function __construct(
-        protected PrivateCategoryService $categoryService,
+        protected CategoryService $categoryService,
     ) {
     }
 
@@ -69,7 +69,7 @@ class AdminCategoryController extends Controller
     public function index(CategoryIndexRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $collection = $this->categoryService->getAllCategories($validated['lastId']);
+        $collection = $this->categoryService->getAllPrivateCategories($validated['lastId']);
         $resource = CategoryResource::collection($collection);
 
         return $resource->response()->setStatusCode(200);

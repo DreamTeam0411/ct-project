@@ -1580,6 +1580,24 @@
                     "Service"
                 ],
                 "operationId": "f847e1790b221c37c3fcaafcf5dbf0e5",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Show all services",
@@ -1608,10 +1626,96 @@
                     }
                 }
             }
+        },
+        "/v1/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "operationId": "d08b85a72938df92b7ecea30cb808818",
+                "responses": {
+                    "200": {
+                        "description": "Show all categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CategoryIdNameSlug"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "operationId": "c8096ce329e5c1344a3c7795a5c8eaac",
+                "responses": {
+                    "200": {
+                        "description": "Show all cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CityIdNameAndSlug"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "CategoryIdNameSlug": {
+                "description": "Show information about category",
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array.",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "slug": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "Category": {
                 "description": "Show information about category",
                 "properties": {
@@ -1683,7 +1787,7 @@
             "CityNameAndSlug": {
                 "description": "Show information about city name and slug",
                 "properties": {
-                    "title": {
+                    "name": {
                         "type": "string"
                     },
                     "slug": {

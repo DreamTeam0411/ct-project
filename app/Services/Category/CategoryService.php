@@ -11,7 +11,7 @@ use App\Services\Service\ServiceService;
 use Exception;
 use Illuminate\Support\Collection;
 
-class PrivateCategoryService
+class CategoryService
 {
     /**
      * @param CategoryRepository $categoryRepository
@@ -27,9 +27,14 @@ class PrivateCategoryService
      * @param int $lastId
      * @return Collection
      */
-    public function getAllCategories(int $lastId = 0): Collection
+    public function getAllPrivateCategories(int $lastId = 0): Collection
     {
         return $this->categoryRepository->getAllPrivateCategories($lastId);
+    }
+
+    public function getAllPublicCategories(): Collection
+    {
+        return $this->categoryRepository->getAllPublicCategories();
     }
 
     /**

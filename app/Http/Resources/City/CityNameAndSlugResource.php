@@ -18,7 +18,7 @@ class CityNameAndSlugResource extends JsonResource
         description: 'Show information about city name and slug',
         properties: [
             new OA\Property(
-                property: 'title',
+                property: 'name',
                 type: 'string',
             ),
             new OA\Property(
