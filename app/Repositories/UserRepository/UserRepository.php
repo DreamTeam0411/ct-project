@@ -24,15 +24,32 @@ class UserRepository
      */
     public function insertAndGetId(RegisterUserDTO $DTO): int
     {
-       return $this->query->insertGetId([
-           'first_name'     => $DTO->getFirstName(),
-           'last_name'      => $DTO->getLastName(),
+        return $this->query->insertGetId([
+           'first_name'     => $this->setFirstLetterUppercase($DTO->getFirstName()),
+           'last_name'      => $this->setFirstLetterUppercase($DTO->getLastName()),
            'phone_number'   => $DTO->getPhoneNumber(),
            'email'          => $DTO->getEmail(),
            'password'       => Hash::make($DTO->getPassword()),
            'created_at'     => Carbon::now(),
            'updated_at'     => Carbon::now(),
-       ]);
+        ]);
+    }
+
+    /**
+     * @param UserUpdateDTO $DTO
+     * @return void
+     */
+    public function update(UserUpdateDTO $DTO): void
+    {
+        $this->query
+            ->where('id', '=', $DTO->getId())
+            ->update([
+            'first_name'     => $this->setFirstLetterUppercase($DTO->getFirstName()),
+            'last_name'      => $this->setFirstLetterUppercase($DTO->getLastName()),
+            'phone_number'   => $DTO->getPhoneNumber(),
+            'address'        => $DTO->getAddress(),
+            'updated_at'     => Carbon::now(),
+        ]);
     }
 
     /**
@@ -113,5 +130,14 @@ class UserRepository
                 ->where('email', '=', $email)
                 ->first()
         );
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function setFirstLetterUppercase(string $name): string
+    {
+        return ucfirst(strtolower($name));
     }
 }

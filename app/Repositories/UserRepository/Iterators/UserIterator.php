@@ -10,6 +10,7 @@ class UserIterator
     protected string $firstName;
     protected string $lastName;
     protected string $phoneNumber;
+    protected string|null $address;
     protected string $email;
     protected Carbon $createdAt;
 
@@ -19,6 +20,7 @@ class UserIterator
         $this->firstName    = $data->first_name;
         $this->lastName     = $data->last_name;
         $this->phoneNumber  = $data->phone_number;
+        $this->address      = $data->address;
         $this->email        = $data->email;
         $this->createdAt    = new Carbon($data->created_at);
     }
@@ -53,6 +55,14 @@ class UserIterator
     public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
     }
 
     /**

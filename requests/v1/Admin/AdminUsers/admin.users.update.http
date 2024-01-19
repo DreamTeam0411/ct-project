@@ -1,0 +1,11 @@
+PATCH http://{{host}}/api/v1/admin/users/{{id}}
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "firstName": "{{firstName}}",
+    "lastName": "{{lastName}}",
+    "phoneNumber": "{{phoneNumber}}",
+    "address": null
+}
