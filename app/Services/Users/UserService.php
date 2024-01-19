@@ -6,6 +6,7 @@ use App\Repositories\RoleUser\RoleUserRepository;
 use App\Repositories\UserRepository\Iterators\UserIterator;
 use App\Repositories\UserRepository\RegisterUserDTO;
 use App\Repositories\UserRepository\UserRepository;
+use App\Repositories\UserRepository\UserUpdateDTO;
 
 class UserService
 {
@@ -19,6 +20,10 @@ class UserService
     ) {
     }
 
+    /**
+     * @param RegisterUserDTO $DTO
+     * @return UserIterator
+     */
     public function register(RegisterUserDTO $DTO): UserIterator
     {
         $userId = $this->userRepository->insertAndGetId($DTO);
@@ -27,8 +32,23 @@ class UserService
         return $this->userRepository->getUserById($userId);
     }
 
+    /**
+     * @param int $id
+     * @return UserIterator
+     */
     public function getUserById(int $id): UserIterator
     {
         return $this->userRepository->getUserById($id);
+    }
+
+    /**
+     * @param UserUpdateDTO $DTO
+     * @return UserIterator
+     */
+    public function update(UserUpdateDTO $DTO): UserIterator
+    {
+        $this->userRepository->update($DTO);
+
+        return $this->userRepository->getUserById($DTO->getId());
     }
 }

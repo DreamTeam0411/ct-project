@@ -989,6 +989,99 @@
                 ]
             }
         },
+        "/v1/admin/users/{id}": {
+            "patch": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "operationId": "916dc1b3ea088dd1be5872daa3cef27c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Min: 1",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "firstName",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "description": "Min: 4 symbols, max: 30, only numbers allow",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 30,
+                            "minLength": 4
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/v1/register": {
             "post": {
                 "tags": [
@@ -1554,6 +1647,76 @@
                 }
             }
         },
+        "/v1/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "operationId": "3d190aaade29ca48850ff94906fbe993",
+                "responses": {
+                    "200": {
+                        "description": "Show all categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CategoryIdNameSlug"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "operationId": "e5340ccb228235afcc41e39c4f0f8ac5",
+                "responses": {
+                    "200": {
+                        "description": "Show all cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CityIdNameAndSlug"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/homepage": {
             "get": {
                 "tags": [
@@ -1607,76 +1770,6 @@
                                     "properties": {
                                         "data": {
                                             "$ref": "#/components/schemas/PublicService"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation errors",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationErrors"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/categories": {
-            "get": {
-                "tags": [
-                    "Categories"
-                ],
-                "operationId": "d08b85a72938df92b7ecea30cb808818",
-                "responses": {
-                    "200": {
-                        "description": "Show all categories",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/CategoryIdNameSlug"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation errors",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ValidationErrors"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/cities": {
-            "get": {
-                "tags": [
-                    "Cities"
-                ],
-                "operationId": "c8096ce329e5c1344a3c7795a5c8eaac",
-                "responses": {
-                    "200": {
-                        "description": "Show all cities",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/CityIdNameAndSlug"
                                         }
                                     },
                                     "type": "object"
@@ -2313,6 +2406,10 @@
                     },
                     "phoneNumber": {
                         "type": "string"
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "email": {
                         "type": "string"

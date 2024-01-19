@@ -33,6 +33,11 @@ class UserResource extends JsonResource
                 type: 'string',
             ),
             new OA\Property(
+                property: 'address',
+                type: 'string',
+                nullable: true,
+            ),
+            new OA\Property(
                 property: 'email',
                 type: 'string',
             ),
@@ -53,6 +58,7 @@ class UserResource extends JsonResource
             'firstName'     => $resource->getFirstName(),
             'lastName'      => $resource->getLastName(),
             'phoneNumber'   => $resource->getPhoneNumber(),
+            'address'       => $resource->getAddress(),
             'email'         => $resource->getEmail(),
             'createdAt'     => $resource->getCreatedAt(),
         ];
