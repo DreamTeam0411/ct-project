@@ -8,6 +8,7 @@ class PrivateCategoryIterator
 {
     protected int $id;
     protected int|null $parentId;
+    protected string $icon;
     protected string $title;
     protected string $slug;
     protected SupportIterator $createdBy;
@@ -22,6 +23,7 @@ class PrivateCategoryIterator
     {
         $this->id           = $data->id;
         $this->parentId     = $data->parent_id;
+        $this->icon         = $data->icon;
         $this->title        = $data->title;
         $this->slug         = $data->slug;
         $this->createdBy    = new SupportIterator($data->createdBy);
@@ -44,6 +46,11 @@ class PrivateCategoryIterator
     public function getParentId(): ?int
     {
         return $this->parentId;
+    }
+
+    public function getIcon(): string
+    {
+        return $this->icon;
     }
 
     /**

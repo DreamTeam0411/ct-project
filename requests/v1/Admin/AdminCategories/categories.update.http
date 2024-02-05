@@ -4,6 +4,5 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "parentId": null,
     "title": "{{title}}"
 }

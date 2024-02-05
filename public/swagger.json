@@ -18,6 +18,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Get 100 categories via lazy loading",
                 "operationId": "3133d5ea8706f58a99df9c5bdbede62b",
                 "parameters": [
                     {
@@ -39,6 +40,14 @@
                                     "properties": {
                                         "data": {
                                             "$ref": "#/components/schemas/Category"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "lastId": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -67,6 +76,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Insert a new category",
                 "operationId": "7a001a43920c3ba28c4b3df77ae1311b",
                 "parameters": [
                     {
@@ -88,6 +98,22 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "icon": {
+                                        "description": "Binary content of file",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Show created category",
@@ -100,6 +126,16 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Exception error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
                                 }
                             }
                         }
@@ -127,6 +163,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Get info about specified category",
                 "operationId": "2d471267bdc73dcc22ac5a4447d2800d",
                 "parameters": [
                     {
@@ -176,6 +213,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Delete the specific category",
                 "operationId": "0a74440c8eb0366b196f573bb5038c4c",
                 "parameters": [
                     {
@@ -227,6 +265,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Update the specific category",
                 "operationId": "ee196a96e4c2e31deca15254b8f59d64",
                 "parameters": [
                     {
@@ -257,9 +296,25 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "icon": {
+                                        "description": "NOT IMPLEMENT YET",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Show all cities",
+                        "description": "Show category",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -269,6 +324,16 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Exception error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
                                 }
                             }
                         }
@@ -646,6 +711,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Get 100 services via lazy loading",
                 "operationId": "68aa901cafb7fcbd8b45f712507ae71b",
                 "parameters": [
                     {
@@ -667,6 +733,14 @@
                                     "properties": {
                                         "data": {
                                             "$ref": "#/components/schemas/AdminService"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "lastId": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -695,6 +769,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Create a new service",
                 "operationId": "487d67aa8e30b9271399fdf3dc21984d",
                 "parameters": [
                     {
@@ -758,6 +833,22 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "photo": {
+                                        "description": "Binary content of file",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "Create new service",
@@ -797,6 +888,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Show the specific service",
                 "operationId": "ba089f9b570285388e4979fb08c81488",
                 "parameters": [
                     {
@@ -846,6 +938,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Delete the specific service",
                 "operationId": "6d32efc9b8bb1726e307f51056a3e867",
                 "parameters": [
                     {
@@ -883,6 +976,7 @@
                 "tags": [
                     "Admin Panel"
                 ],
+                "summary": "Update the specific service",
                 "operationId": "ef81fadcfd718c86f9d2fd26c7565734",
                 "parameters": [
                     {
@@ -955,6 +1049,22 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "photo": {
+                                        "description": "NOT IMPLEMENT YET",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Show updated service",
@@ -1819,6 +1929,9 @@
                         "description": "Integer or null",
                         "type": "integer"
                     },
+                    "icon": {
+                        "type": "string"
+                    },
                     "title": {
                         "type": "string"
                     },
@@ -1843,6 +1956,7 @@
                     {
                         "id": 1,
                         "parentId": null,
+                        "icon": "category1.png",
                         "title": "Макіяж",
                         "slug": "makiyazh",
                         "createdBy": {
@@ -2180,13 +2294,16 @@
                         "type": "integer"
                     },
                     "category": {
-                        "type": "integer"
+                        "$ref": "#/components/schemas/CategoryIdNameSlug"
                     },
                     "title": {
                         "type": "integer"
                     },
                     "description": {
-                        "type": "integer"
+                        "type": "string"
+                    },
+                    "photo": {
+                        "type": "string"
                     },
                     "user": {
                         "$ref": "#/components/schemas/Support"
@@ -2215,6 +2332,7 @@
                     },
                     "title": "Заголовок послуги",
                     "description": "Детальний опис послуги",
+                    "photo": "y1lzlmDXALGM0JIEQSSC2cu2fCb2ptJZZCmT8ihM.jpg",
                     "user": {
                         "id": 32,
                         "firstName": "Олена",

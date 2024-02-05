@@ -9,7 +9,7 @@ class UserUpdateDTO
         protected string $firstName,
         protected string $lastName,
         protected string $phoneNumber,
-        protected string|null $address,
+        protected string|null $address = null,
     ) {
     }
 

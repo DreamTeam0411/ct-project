@@ -2,16 +2,19 @@
 
 namespace App\Repositories\Services;
 
+use Illuminate\Http\UploadedFile;
+
 class AdminServiceStoreDTO
 {
     public function __construct(
         protected int $categoryId,
         protected string $title,
         protected string $description,
+        protected UploadedFile $photo,
         protected int $userId,
         protected float $price,
         protected int $cityId,
-    ){
+    ) {
     }
 
     /**
@@ -36,6 +39,14 @@ class AdminServiceStoreDTO
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getPhoto(): UploadedFile
+    {
+        return $this->photo;
     }
 
     /**

@@ -4,22 +4,23 @@ namespace App\Services\Category;
 
 use App\Repositories\Categories\CategoryRepository;
 use App\Repositories\Categories\CategoryStoreDTO;
-use App\Repositories\Categories\CategoryUpdateDTO;
 use App\Repositories\Categories\Iterators\PrivateCategoryIterator;
 use App\Repositories\Services\ServiceRepository;
-use App\Services\Service\ServiceService;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class CategoryService
 {
     /**
      * @param CategoryRepository $categoryRepository
      * @param ServiceRepository $serviceRepository
+     * @param CategoryImageStorage $categoryImageStorage
      */
     public function __construct(
         protected CategoryRepository $categoryRepository,
-        protected ServiceRepository $serviceRepository
+        protected ServiceRepository $serviceRepository,
+        protected CategoryImageStorage $categoryImageStorage,
     ) {
     }
 
@@ -40,9 +41,15 @@ class CategoryService
     /**
      * @param CategoryStoreDTO $DTO
      * @return PrivateCategoryIterator
+     * @throws Exception
      */
     public function insertAndGetId(CategoryStoreDTO $DTO): PrivateCategoryIterator
     {
+        if ($this->categoryRepository->isSlugExists(Str::slug($DTO->getTitle())) === true) {
+            throw new Exception('This category already exists', 400);
+        }
+
+        $this->categoryImageStorage->saveImage($DTO->getIcon());
         $categoryId = $this->categoryRepository->insertAndGetId($DTO);
 
         return $this->categoryRepository->getPrivateCategoryById($categoryId);
@@ -55,17 +62,6 @@ class CategoryService
     public function getById(int $id): ?PrivateCategoryIterator
     {
         return $this->categoryRepository->getPrivateCategoryById($id);
-    }
-
-    /**
-     * @param CategoryUpdateDTO $DTO
-     * @return PrivateCategoryIterator
-     */
-    public function updateAndGetById(CategoryUpdateDTO $DTO): PrivateCategoryIterator
-    {
-        $this->categoryRepository->updatePrivateCategory($DTO);
-
-        return $this->categoryRepository->getPrivateCategoryById($DTO->getId());
     }
 
     /**

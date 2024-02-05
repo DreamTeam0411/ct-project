@@ -26,7 +26,7 @@ class AdminServiceResource extends JsonResource
             ),
             new OA\Property(
                 property: 'category',
-                type: 'integer',
+                ref: '#/components/schemas/CategoryIdNameSlug'
             ),
             new OA\Property(
                 property: 'title',
@@ -34,7 +34,11 @@ class AdminServiceResource extends JsonResource
             ),
             new OA\Property(
                 property: 'description',
-                type: 'integer',
+                type: 'string',
+            ),
+            new OA\Property(
+                property: 'photo',
+                type: 'string',
             ),
             new OA\Property(
                 property: 'user',
@@ -67,6 +71,7 @@ class AdminServiceResource extends JsonResource
             ],
             'title'         => 'Заголовок послуги',
             'description'   => 'Детальний опис послуги',
+            'photo'         => 'y1lzlmDXALGM0JIEQSSC2cu2fCb2ptJZZCmT8ihM.jpg',
             'user' => [
                 'id' => 32,
                 'firstName' => 'Олена',
@@ -93,6 +98,7 @@ class AdminServiceResource extends JsonResource
             'category'      => new CategoryIdNameSlugResource($resource->getCategory()),
             'title'         => $resource->getTitle(),
             'description'   => $resource->getDescription(),
+            'photo'         => $resource->getPhoto(),
             'user'          => [
                 'id'        => $resource->getUser()->getId(),
                 'firstName' => $resource->getUser()->getFirstName(),

@@ -2,12 +2,15 @@
 
 namespace App\Repositories\Categories;
 
+use Illuminate\Http\UploadedFile;
+
 class CategoryUpdateDTO
 {
     public function __construct(
         protected int $id,
         protected int|null $parentId,
         protected string $title,
+        protected UploadedFile|null $icon = null,
     ) {
     }
 
@@ -33,5 +36,13 @@ class CategoryUpdateDTO
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    /**
+     * @return UploadedFile|null
+     */
+    public function getIcon(): ?UploadedFile
+    {
+        return $this->icon;
     }
 }

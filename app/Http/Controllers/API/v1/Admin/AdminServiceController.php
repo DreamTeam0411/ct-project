@@ -10,8 +10,10 @@ use App\Http\Requests\Admin\AdminService\AdminServiceStoreRequest;
 use App\Http\Requests\Admin\AdminService\AdminServiceUpdateRequest;
 use App\Http\Resources\Service\AdminServiceResource;
 use App\Repositories\Services\AdminServiceStoreDTO;
+use App\Repositories\Services\Iterators\PrivateServiceIterator;
 use App\Repositories\Services\ServiceUpdateDTO;
 use App\Services\Service\ServiceService;
+use App\Services\Service\Update\ServiceUpdateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
@@ -20,9 +22,11 @@ class AdminServiceController extends Controller
 {
     /**
      * @param ServiceService $service
+     * @param ServiceUpdateService $serviceUpdateService
      */
     public function __construct(
         protected ServiceService $service,
+        protected ServiceUpdateService $serviceUpdateService,
     ) {
     }
 
@@ -32,6 +36,7 @@ class AdminServiceController extends Controller
      */
     #[OA\Get(
         path: '/v1/admin/services',
+        summary: 'Get 100 services via lazy loading',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
@@ -55,6 +60,15 @@ class AdminServiceController extends Controller
                             property: 'data',
                             ref: '#/components/schemas/AdminService',
                         ),
+                        new OA\Property(
+                            property: 'meta',
+                            properties: [
+                                new OA\Property(
+                                    property: 'lastId',
+                                    type: 'integer',
+                                ),
+                            ]
+                        ),
                     ],
                 ),
             ),
@@ -71,7 +85,15 @@ class AdminServiceController extends Controller
     {
         $validated = $request->validated();
         $service = $this->service->getPrivateServices($validated['lastId']);
-        $resource = AdminServiceResource::collection($service);
+
+        /** @var PrivateServiceIterator $last */
+        $last = $service->last();
+        $resource = AdminServiceResource::collection($service)
+            ->additional([
+                'meta' => [
+                    'lastId' => $last->getId(),
+                ],
+            ]);
 
         return $resource->response()->setStatusCode(200);
     }
@@ -82,7 +104,23 @@ class AdminServiceController extends Controller
      */
     #[OA\Post(
         path: '/v1/admin/services',
+        summary: 'Create a new service',
         security: [['bearerAuth' => []]],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                mediaType: 'multipart/form-data',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'photo',
+                            description: 'Binary content of file',
+                            type: 'string',
+                            format: 'binary',
+                        ),
+                    ],
+                ),
+            ),
+        ),
         tags: ['Admin Panel'],
         parameters: [
             new OA\Parameter(
@@ -184,6 +222,7 @@ class AdminServiceController extends Controller
      */
     #[OA\Get(
         path: '/v1/admin/services/{id}',
+        summary: 'Show the specific service',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [
@@ -234,7 +273,23 @@ class AdminServiceController extends Controller
      */
     #[OA\Patch(
         path: '/v1/admin/services/{id}',
+        summary: 'Update the specific service',
         security: [['bearerAuth' => []]],
+        requestBody: new OA\RequestBody(
+            content: new OA\MediaType(
+                mediaType: 'multipart/form-data',
+                schema: new OA\Schema(
+                    properties: [
+                        new OA\Property(
+                            property: 'photo',
+                            description: 'NOT IMPLEMENT YET',
+                            type: 'string',
+                            format: 'binary',
+                        ),
+                    ],
+                ),
+            ),
+        ),
         tags: ['Admin Panel'],
         parameters: [
             new OA\Parameter(
@@ -333,7 +388,10 @@ class AdminServiceController extends Controller
     {
         $validated = $request->validated();
         $DTO = new ServiceUpdateDTO(...$validated);
-        $service = $this->service->updateAndGetById($DTO);
+
+        $resultDTO = $this->serviceUpdateService->handle($DTO);
+        $service = $this->service->getById($resultDTO->getId());
+
         $resource = new AdminServiceResource($service);
 
         return $resource->response()->setStatusCode(200);
@@ -345,6 +403,7 @@ class AdminServiceController extends Controller
      */
     #[OA\Delete(
         path: '/v1/admin/services/{id}',
+        summary: 'Delete the specific service',
         security: [['bearerAuth' => []]],
         tags: ['Admin Panel'],
         parameters: [

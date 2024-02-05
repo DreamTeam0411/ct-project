@@ -27,6 +27,10 @@ class CategoryResource extends JsonResource
                 type: 'integer',
             ),
             new OA\Property(
+                property: 'icon',
+                type: 'string',
+            ),
+            new OA\Property(
                 property: 'title',
                 type: 'string',
             ),
@@ -55,6 +59,7 @@ class CategoryResource extends JsonResource
             [
                 'id' => 1,
                 'parentId' => null,
+                'icon' => 'category1.png',
                 'title' => 'Макіяж',
                 'slug' => 'makiyazh',
                 'createdBy' => [
@@ -82,6 +87,7 @@ class CategoryResource extends JsonResource
         return [
             'id'        => $resource->getId(),
             'parentId'  => $resource->getParentId(),
+            'icon'      => $resource->getIcon(),
             'title'     => $resource->getTitle(),
             'slug'      => $resource->getSlug(),
             'createdBy' => new SupportResource($resource->getCreatedBy()),

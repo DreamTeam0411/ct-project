@@ -6,6 +6,5 @@ Authorization: {{token}}
 {
     "firstName": "{{firstName}}",
     "lastName": "{{lastName}}",
-    "phoneNumber": "{{phoneNumber}}",
-    "address": null
+    "phoneNumber": "{{phoneNumber}}"
 }

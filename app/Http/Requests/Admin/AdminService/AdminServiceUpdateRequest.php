@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin\AdminService;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class AdminServiceUpdateRequest extends FormRequest
 {
@@ -22,6 +23,12 @@ class AdminServiceUpdateRequest extends FormRequest
             'userId'        => ['integer', 'exists:users,id'],
             'price'         => ['regex:/^\d*(\.\d{2})?$/', 'required'],
             'cityId'        => ['integer', 'exists:cities,id'],
+            'photo'         => [
+                'sometimes',
+                //@TODO: image dimensions and size
+                File::image()
+                    ->types('image/jpeg')
+            ],
         ];
     }
 

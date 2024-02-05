@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Services;
 
+use Illuminate\Http\UploadedFile;
+
 class ServiceUpdateDTO
 {
     public function __construct(
@@ -12,7 +14,8 @@ class ServiceUpdateDTO
         protected int $userId,
         protected float $price,
         protected int $cityId,
-    ){
+        protected UploadedFile|null $photo = null,
+    ) {
     }
 
     /**
@@ -69,5 +72,13 @@ class ServiceUpdateDTO
     public function getCityId(): int
     {
         return $this->cityId;
+    }
+
+    /**
+     * @return UploadedFile|null
+     */
+    public function getPhoto(): ?UploadedFile
+    {
+        return $this->photo;
     }
 }

@@ -56,7 +56,7 @@ class ServiceRepository
                 'categories.slug',
                 'services.title AS service_title',
                 'services.description',
-                'services.photo',
+                'services.photo AS service_photo',
                 'services.user_id',
                 'users.first_name',
                 'users.last_name',
@@ -95,7 +95,7 @@ class ServiceRepository
                 'categories.slug',
                 'services.title AS service_title',
                 'services.description',
-                'services.photo',
+                'services.photo AS service_photo',
                 'services.user_id',
                 'users.first_name',
                 'users.last_name',
@@ -152,6 +152,7 @@ class ServiceRepository
                 'category_id'   => $DTO->getCategoryId(),
                 'title'         => $DTO->getTitle(),
                 'description'   => $DTO->getDescription(),
+                'photo'         => $DTO->getPhoto()->hashName(),
                 'user_id'       => $DTO->getUserId(),
                 'price'         => $DTO->getPrice(),
                 'city_id'       => $DTO->getCityId(),
@@ -171,7 +172,7 @@ class ServiceRepository
                 'services.title AS service_title',
                 'services.description',
                 'services.user_id',
-                'services.photo',
+                'services.photo AS service_photo',
                 'users.first_name',
                 'users.last_name',
                 'users.email',
@@ -211,6 +212,15 @@ class ServiceRepository
             ]);
     }
 
+    public function updateImage(ServiceUpdateDTO $DTO): void
+    {
+        $this->query
+            ->where('services.id', '=', $DTO->getId())
+            ->update([
+                'services.photo' => $DTO->getPhoto()->hashName(),
+            ]);
+    }
+
     /**
      * @param int $id
      * @return void
@@ -244,7 +254,7 @@ class ServiceRepository
             ],
             'title'         => $query->service_title,
             'description'   => $query->description,
-            'photo'         => $query->photo,
+            'photo'         => $query->service_photo,
             'user' => (object)[
                 'id'        => $query->user_id,
                 'firstName' => $query->first_name,
@@ -276,13 +286,13 @@ class ServiceRepository
             ],
             'title'         => $query->service_title,
             'description'   => $query->description,
-            'photo'         => $query->photo,
+            'photo'         => $query->service_photo ?? '',
             'user' => (object)[
                 'id' => $query->user_id,
                 'firstName'     => $query->first_name,
                 'lastName'      => $query->last_name,
                 'phoneNumber'   => $query->phone_number,
-                'address'       => $query->address,
+                'address'       => $query->address ?? '',
             ],
             'price' => $query->price,
             'city' => (object)[

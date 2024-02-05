@@ -54,6 +54,7 @@ class CategoryRepository
                 'categories.id',
                 'categories.parent_id',
                 'categories.title',
+                'categories.icon',
                 'categories.slug',
                 'categories.created_by',
                 'created_by_user.first_name AS cbu_first_name',
@@ -63,8 +64,8 @@ class CategoryRepository
                 'updated_by_user.first_name AS ubu_first_name',
                 'updated_by_user.last_name AS ubu_last_name',
                 'updated_by_user.email AS ubu_email',
-                'categories.created_at',
-                'categories.updated_at',
+                'categories.created_at AS category_created_at',
+                'categories.updated_at AS category_updated_at',
             ])
             ->join('users AS created_by_user', 'categories.created_by', '=', 'created_by_user.id')
             ->join('users AS updated_by_user', 'categories.updated_by', '=', 'updated_by_user.id')
@@ -105,7 +106,7 @@ class CategoryRepository
     {
         return $this->query->insertGetId([
             'parent_id'     => $DTO->getParentId(),
-            'icon'          => 'default.svg',
+            'icon'          => $DTO->getIcon()->hashName(),
             'title'         => $DTO->getTitle(),
             'slug'          => Str::slug($DTO->getTitle()),
             'created_by'    => $this->authUserService->getUserId(),
@@ -125,6 +126,7 @@ class CategoryRepository
             ->select([
                 'categories.id',
                 'categories.parent_id',
+                'categories.icon',
                 'categories.title',
                 'categories.slug',
                 'categories.created_by',
@@ -135,8 +137,8 @@ class CategoryRepository
                 'updated_by_user.first_name AS ubu_first_name',
                 'updated_by_user.last_name AS ubu_last_name',
                 'updated_by_user.email AS ubu_email',
-                'categories.created_at',
-                'categories.updated_at',
+                'categories.created_at AS category_created_at',
+                'categories.updated_at AS category_updated_at',
             ])
             ->where('categories.id', '=', $id)
             ->join('users AS created_by_user', 'categories.created_by', '=', 'created_by_user.id')
@@ -146,6 +148,10 @@ class CategoryRepository
         return $this->getPrivateCategoryIterator($category);
     }
 
+    /**
+     * @param CategoryUpdateDTO $DTO
+     * @return void
+     */
     public function updatePrivateCategory(CategoryUpdateDTO $DTO): void
     {
         $this->query
@@ -160,12 +166,38 @@ class CategoryRepository
     }
 
     /**
+     * @param CategoryUpdateDTO $DTO
+     * @return void
+     */
+    public function updateImage(CategoryUpdateDTO $DTO): void
+    {
+        $this->query
+            ->where('categories.id', '=', $DTO->getId())
+            ->update([
+                'icon' => $DTO->getIcon()->hashName(),
+            ]);
+    }
+
+    /**
      * @param int $id
      * @return void
      */
     public function deleteById(int $id): void
     {
         $this->query->where('id', '=', $id)->delete();
+    }
+
+    /**
+     * @param string $slug
+     * @param int $id
+     * @return bool
+     */
+    public function isSlugExists(string $slug, int $id = 0): bool
+    {
+        return $this->query
+            ->where('categories.slug', '=', $slug)
+            ->whereNot('categories.id', '=', $id)
+            ->exists();
     }
 
     /**
@@ -181,6 +213,7 @@ class CategoryRepository
         return new PrivateCategoryIterator((object)[
             'id' => $category->id,
             'parent_id' => $category->parent_id,
+            'icon' => $category->icon,
             'title' => $category->title,
             'slug' => $category->slug,
             'createdBy' => (object)[
@@ -195,8 +228,8 @@ class CategoryRepository
                 'lastName'  => $category->ubu_last_name,
                 'email'     => $category->ubu_email,
             ],
-            'createdAt' => $category->created_at,
-            'updatedAt' => $category->updated_at,
+            'createdAt' => $category->category_created_at,
+            'updatedAt' => $category->category_updated_at,
         ]);
     }
 }

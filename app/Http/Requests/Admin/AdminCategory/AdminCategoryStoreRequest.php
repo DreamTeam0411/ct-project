@@ -4,8 +4,9 @@ namespace App\Http\Requests\Admin\AdminCategory;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
-class CategoryUpdateRequest extends FormRequest
+class AdminCategoryStoreRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,17 +16,21 @@ class CategoryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id'        => ['integer', 'required', 'exists:categories,id'],
             'parentId'  => ['integer', 'nullable', 'exists:categories,id'],
-            'title'     => ['string'],
+            'icon'      => [
+                'required',
+                //@TODO: image dimensions and size
+                File::image()
+                    ->types('image/jpeg')
+            ],
+            'title'     => ['string', 'required'],
         ];
     }
 
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'id'        => $this->route('category'),
-            'parentId'  => $this->parentId ?? null,
+            'parentId' => $this->parentId ?? null,
         ]);
     }
 }

@@ -12,6 +12,7 @@ class PrivateServiceIterator
     protected SubcategoryIterator $category;
     protected string $title;
     protected string $description;
+    protected string $photo;
     protected SupportIterator $user;
     protected float $price;
     protected CityIdNameAndSlugIterator $city;
@@ -24,6 +25,7 @@ class PrivateServiceIterator
         $this->category     = new SubcategoryIterator($data->category);
         $this->title        = $data->title;
         $this->description  = $data->description;
+        $this->photo        = $data->photo;
         $this->user         = new SupportIterator($data->user);
         $this->price        = $data->price;
         $this->city         = new CityIdNameAndSlugIterator($data->city);
@@ -63,6 +65,13 @@ class PrivateServiceIterator
         return $this->description;
     }
 
+    /**
+     * @return string
+     */
+    public function getPhoto(): string
+    {
+        return $this->photo;
+    }
     /**
      * @return SupportIterator
      */

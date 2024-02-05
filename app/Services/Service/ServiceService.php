@@ -14,9 +14,11 @@ class ServiceService
 {
     /**
      * @param ServiceRepository $serviceRepository
+     * @param ServiceImageStorage $serviceImageStorage
      */
     public function __construct(
         protected ServiceRepository $serviceRepository,
+        protected ServiceImageStorage $serviceImageStorage,
     ) {
     }
 
@@ -57,6 +59,8 @@ class ServiceService
      */
     public function insertAndGetService(AdminServiceStoreDTO $DTO): PrivateServiceIterator
     {
+        $this->serviceImageStorage->saveImage($DTO->getPhoto());
+
         $serviceId = $this->serviceRepository->insertAndGetId($DTO);
 
         return $this->serviceRepository->getById($serviceId);
@@ -69,17 +73,6 @@ class ServiceService
     public function getById(int $id): PrivateServiceIterator
     {
         return $this->serviceRepository->getById($id);
-    }
-
-    /**
-     * @param ServiceUpdateDTO $DTO
-     * @return PrivateServiceIterator
-     */
-    public function updateAndGetById(ServiceUpdateDTO $DTO): PrivateServiceIterator
-    {
-        $this->serviceRepository->updatePrivateService($DTO);
-
-        return $this->serviceRepository->getById($DTO->getId());
     }
 
     /**
