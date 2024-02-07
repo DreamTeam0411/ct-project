@@ -3,9 +3,11 @@
 namespace App\Repositories\UserRepository;
 
 use App\Enums\Role;
+use App\Repositories\UserRepository\Iterators\AdminBusinessIterator;
 use App\Repositories\UserRepository\Iterators\UserIterator;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -127,9 +129,60 @@ class UserRepository
     {
         return new UserIterator(
             $this->query
+                ->select([
+                    'users.id',
+                    'users.first_name',
+                    'users.last_name',
+                    'users.phone_number',
+                    'users.address',
+                    'users.email',
+                    'users.created_at',
+                ])
                 ->where('email', '=', $email)
                 ->first()
         );
+    }
+
+    /**
+     * WARNING: One-To-One Relation
+     * @param UserSearchDTO $DTO
+     * @return Collection
+     */
+    public function searchUsersWithBusinessRole(UserSearchDTO $DTO): Collection
+    {
+        $collection = new Collection(
+            $this->query
+                ->select([
+                    'users.id',
+                    'users.last_name',
+                    'users.first_name',
+                    'services.title AS service_title',
+                    'users.email',
+                    'users.address',
+                    'users.phone_number'
+                ])
+                ->join('role_user', 'users.id', '=', 'role_user.user_id')
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                ->leftJoin('services', 'users.id', '=', 'services.user_id')
+                ->where('roles.id', '=', Role::IS_BUSINESS->value)
+                ->where(function ($query) use ($DTO) {
+                    $query->where('users.first_name', 'like', '%' . $DTO->getSearchInput() . '%')
+                        ->orWhere('users.last_name', 'like', '%' . $DTO->getSearchInput() . '%');
+                })
+                ->get()
+        );
+
+        return $collection->unique('id')->map(function ($user) {
+            return new AdminBusinessIterator((object)[
+                'id'            => $user->id,
+                'lastName'      => $user->last_name,
+                'firstName'     => $user->first_name,
+                'service'       => $user->service_title,
+                'email'         => $user->email,
+                'address'       => $user->address,
+                'phoneNumber'   => $user->phone_number
+            ]);
+        });
     }
 
     /**

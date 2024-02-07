@@ -12,7 +12,7 @@ class PrivateServiceIterator
     protected SubcategoryIterator $category;
     protected string $title;
     protected string $description;
-    protected string $photo;
+    protected string|null $photo;
     protected SupportIterator $user;
     protected float $price;
     protected CityIdNameAndSlugIterator $city;
@@ -66,9 +66,9 @@ class PrivateServiceIterator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPhoto(): string
+    public function getPhoto(): ?string
     {
         return $this->photo;
     }

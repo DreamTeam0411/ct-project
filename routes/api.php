@@ -57,6 +57,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::apiResource('cities', AdminCityController::class);
             Route::apiResource('categories', AdminCategoryController::class);
             Route::apiResource('services', AdminServiceController::class);
+            Route::get('/users-search', [AdminUserController::class, 'search'])->name('users.search');
             Route::apiResource('users', AdminUserController::class)->only('update');
 
             Route::patch('/homepage/footer-update', [AdminHomePageController::class , 'footerUpdate'])

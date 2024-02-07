@@ -6,7 +6,9 @@ use App\Repositories\RoleUser\RoleUserRepository;
 use App\Repositories\UserRepository\Iterators\UserIterator;
 use App\Repositories\UserRepository\RegisterUserDTO;
 use App\Repositories\UserRepository\UserRepository;
+use App\Repositories\UserRepository\UserSearchDTO;
 use App\Repositories\UserRepository\UserUpdateDTO;
+use Illuminate\Support\Collection;
 
 class UserService
 {
@@ -50,5 +52,14 @@ class UserService
         $this->userRepository->update($DTO);
 
         return $this->userRepository->getUserById($DTO->getId());
+    }
+
+    /**
+     * @param UserSearchDTO $DTO
+     * @return Collection
+     */
+    public function searchUsersWithBusinessRole(UserSearchDTO $DTO): Collection
+    {
+        return $this->userRepository->searchUsersWithBusinessRole($DTO);
     }
 }

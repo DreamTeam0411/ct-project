@@ -1192,6 +1192,59 @@
                 ]
             }
         },
+        "/v1/admin/users-search": {
+            "get": {
+                "tags": [
+                    "Admin Panel"
+                ],
+                "summary": "Search the users with business role by first name or last name",
+                "operationId": "f149c7de070e1aa742522a404f9d93b1",
+                "parameters": [
+                    {
+                        "name": "searchInput",
+                        "in": "query",
+                        "description": "Max: 255 symbols",
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 255,
+                            "nullable": true
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search the users with business role",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AdminBusiness"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrors"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/v1/register": {
             "post": {
                 "tags": [
@@ -2449,6 +2502,31 @@
                             }
                         },
                         "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "AdminBusiness": {
+                "description": "Show information about user with business role in admin panel",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "username": {
+                        "type": "string"
+                    },
+                    "service": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "phoneNumber": {
+                        "type": "string"
                     }
                 },
                 "type": "object"

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API\v1\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminUser\AdminUserSearchRequest;
 use App\Http\Requests\Admin\AdminUser\AdminUserUpdateRequest;
+use App\Http\Resources\User\AdminBusinessResource;
 use App\Http\Resources\User\UserResource;
+use App\Repositories\UserRepository\UserSearchDTO;
 use App\Repositories\UserRepository\UserUpdateDTO;
 use App\Services\Users\UserService;
 use Illuminate\Http\JsonResponse;
@@ -111,6 +114,60 @@ class AdminUserController extends Controller
         $service = $this->userService->update($DTO);
         $resource = new UserResource($service);
 
+        return $resource->response()->setStatusCode(200);
+    }
+
+    /**
+     * @param AdminUserSearchRequest $request
+     * @return JsonResponse
+     */
+    #[OA\Get(
+        path: '/v1/admin/users-search',
+        summary: 'Search the users with business role by first name or last name',
+        security: [['bearerAuth' => []]],
+        tags: ['Admin Panel'],
+        parameters: [
+            new OA\Parameter(
+                name: 'searchInput',
+                description: 'Max: 255 symbols',
+                in: 'query',
+                schema: new OA\Schema(
+                    type: 'string',
+                    maxLength: 255,
+                    nullable: true,
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Search the users with business role',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/AdminBusiness',
+                        ),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation errors',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/ValidationErrors'
+                )
+            ),
+        ],
+    )]
+    public function search(AdminUserSearchRequest $request): JsonResponse
+    {
+        $validated = $request->validated();
+        $DTO = new UserSearchDTO(...$validated);
+
+        $collection = $this->userService->searchUsersWithBusinessRole($DTO);
+
+        $resource = AdminBusinessResource::collection($collection);
         return $resource->response()->setStatusCode(200);
     }
 }

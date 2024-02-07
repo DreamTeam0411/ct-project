@@ -2,34 +2,35 @@
 
 namespace App\Http\Resources\User;
 
-use App\Repositories\UserRepository\Iterators\UserIterator;
+use App\Repositories\UserRepository\Iterators\AdminBusinessIterator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
-class UserResource extends JsonResource
+class AdminBusinessResource extends JsonResource
 {
     /**
-     * @return array<string, mixed>
+     * @param Request $request
+     * @return array
      */
     #[OA\Schema(
-        schema: 'User',
-        description: 'Show information about user',
+        schema: 'AdminBusiness',
+        description: 'Show information about user with business role in admin panel',
         properties: [
             new OA\Property(
                 property: 'id',
                 type: 'integer',
             ),
             new OA\Property(
-                property: 'firstName',
+                property: 'username',
                 type: 'string',
             ),
             new OA\Property(
-                property: 'lastName',
+                property: 'service',
                 type: 'string',
             ),
             new OA\Property(
-                property: 'phoneNumber',
+                property: 'email',
                 type: 'string',
             ),
             new OA\Property(
@@ -38,29 +39,23 @@ class UserResource extends JsonResource
                 nullable: true,
             ),
             new OA\Property(
-                property: 'email',
+                property: 'phoneNumber',
                 type: 'string',
             ),
-            new OA\Property(
-                property: 'createdAt',
-                type: 'string',
-            ),
-
         ]
     )]
     public function toArray(Request $request): array
     {
-        /** @var UserIterator $resource */
+        /** @var AdminBusinessIterator $resource */
         $resource = $this->resource;
 
         return [
             'id'            => $resource->getId(),
-            'firstName'     => $resource->getFirstName(),
-            'lastName'      => $resource->getLastName(),
-            'phoneNumber'   => $resource->getPhoneNumber(),
-            'address'       => $resource->getAddress() ?? '',
+            'username'      => $resource->getLastName() . ' ' . $resource->getFirstName(),
+            'service'       => $resource->getService() ?? '',
             'email'         => $resource->getEmail(),
-            'createdAt'     => $resource->getCreatedAt(),
+            'address'       => $resource->getAddress() ?? '',
+            'phoneNumber'   => $resource->getPhoneNumber(),
         ];
     }
 }
