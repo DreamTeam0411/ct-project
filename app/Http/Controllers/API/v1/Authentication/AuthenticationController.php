@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Authentication\LoginUserRequest;
 use App\Http\Requests\Authentication\RegisteredUserRequest;
 use App\Http\Resources\Errors\ExceptionResource;
+use App\Http\Resources\Role\RoleResource;
 use App\Http\Resources\User\UserResource;
 use App\Repositories\UserRepository\RegisterUserDTO;
 use App\Services\EmailVerification\EmailVerificationService;
@@ -164,6 +165,7 @@ class AuthenticationController extends Controller
      */
     #[OA\Post(
         path: '/v1/login',
+        summary: 'Log in to your an account',
         security: [['bearerAuth' => []]],
         tags: ['Authentication'],
         parameters: [
@@ -202,6 +204,10 @@ class AuthenticationController extends Controller
                         new OA\Property(
                             property: 'Bearer',
                             ref: '#/components/schemas/Bearer'
+                        ),
+                        new OA\Property(
+                            property: 'roles',
+                            ref: '#/components/schemas/Role'
                         ),
                     ]
                 ),
@@ -250,6 +256,9 @@ class AuthenticationController extends Controller
 
         return $resource->additional([
             'Bearer' => $bearerToken,
+            'roles' => RoleResource::collection(
+                $user->getRoles(),
+            ),
         ])->response()->setStatusCode(200);
     }
 
@@ -270,9 +279,8 @@ class AuthenticationController extends Controller
                             property: 'data',
                             ref: '#/components/schemas/User',
                         )
-                    ]
-
-                )
+                    ],
+                ),
             ),
             new OA\Response(
                 response: 401,

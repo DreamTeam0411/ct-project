@@ -2,14 +2,16 @@
 
 namespace App\Services\Users\Login;
 
-
 use App\Repositories\UserRepository\Iterators\UserIterator;
+use Illuminate\Support\Collection;
 use Laravel\Passport\PersonalAccessTokenResult;
 
 class LoginDTO
 {
     protected UserIterator $userIterator;
     protected PersonalAccessTokenResult $bearerToken;
+    protected Collection $roles;
+
     public function __construct(
         protected string $email,
         protected string $password,
@@ -62,5 +64,21 @@ class LoginDTO
     public function setBearerToken(PersonalAccessTokenResult $bearerToken): void
     {
         $this->bearerToken = $bearerToken;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param Collection $roles
+     */
+    public function setRoles(Collection $roles): void
+    {
+        $this->roles = $roles;
     }
 }

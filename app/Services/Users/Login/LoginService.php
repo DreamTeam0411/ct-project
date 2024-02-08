@@ -3,6 +3,7 @@
 namespace App\Services\Users\Login;
 
 use App\Services\Users\Login\Handlers\CheckValidDataHandler;
+use App\Services\Users\Login\Handlers\GetUsersRolesHandler;
 use App\Services\Users\Login\Handlers\SetAuthorizedUserHandler;
 use App\Services\Users\Login\Handlers\SetPersonalTokenHandler;
 use Illuminate\Pipeline\Pipeline;
@@ -13,6 +14,7 @@ class LoginService
         CheckValidDataHandler::class,
         SetAuthorizedUserHandler::class,
         SetPersonalTokenHandler::class,
+        GetUsersRolesHandler::class,
     ];
 
     public function __construct(

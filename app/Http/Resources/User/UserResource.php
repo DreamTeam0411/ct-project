@@ -45,7 +45,6 @@ class UserResource extends JsonResource
                 property: 'createdAt',
                 type: 'string',
             ),
-
         ]
     )]
     public function toArray(Request $request): array

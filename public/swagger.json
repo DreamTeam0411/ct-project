@@ -1369,6 +1369,7 @@
                 "tags": [
                     "Authentication"
                 ],
+                "summary": "Log in to your an account",
                 "operationId": "0d353a34683158f474628745e9a6281e",
                 "parameters": [
                     {
@@ -1405,6 +1406,9 @@
                                         },
                                         "Bearer": {
                                             "$ref": "#/components/schemas/Bearer"
+                                        },
+                                        "roles": {
+                                            "$ref": "#/components/schemas/Role"
                                         }
                                     },
                                     "type": "object"
@@ -2334,6 +2338,18 @@
                         "type": "string"
                     },
                     "token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Role": {
+                "description": "Show information about the role(s)",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
                         "type": "string"
                     }
                 },
