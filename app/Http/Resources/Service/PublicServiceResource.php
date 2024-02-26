@@ -2,12 +2,9 @@
 
 namespace App\Http\Resources\Service;
 
-use App\Http\Resources\Category\CategoryIdNameSlugResource;
 use App\Http\Resources\Category\CategoryNameAndSlugResource;
-use App\Http\Resources\City\CityIdNameAndSlugResource;
 use App\Http\Resources\City\CityNameAndSlugResource;
 use App\Http\Resources\User\BusinessResource;
-use App\Repositories\Services\Iterators\PrivateServiceIterator;
 use App\Repositories\Services\Iterators\PublicServiceIterator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

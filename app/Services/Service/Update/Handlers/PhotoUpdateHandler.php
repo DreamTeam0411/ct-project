@@ -26,7 +26,7 @@ class PhotoUpdateHandler implements ServiceUpdateInterface
         if ($DTO->getPhoto() !== null) {
             $service = $this->serviceRepository->getById($DTO->getId());
 
-            if ($this->serviceImageStorage->isImageExists($service->getPhoto())) {
+            if ($this->serviceImageStorage->isImageExists($service->getPhoto()) && $service->getPhoto() !== null) {
                 $this->serviceImageStorage->deleteImage($service->getPhoto());
             }
 

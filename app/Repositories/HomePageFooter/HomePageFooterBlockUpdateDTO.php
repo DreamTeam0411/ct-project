@@ -8,7 +8,7 @@ class HomePageFooterBlockUpdateDTO
         protected string $description,
         protected string $privacyPolicyLink = '',
         protected string $termsAndCondition = '',
-    ){
+    ) {
     }
 
     /**

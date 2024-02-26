@@ -10,7 +10,7 @@ class AdminFooterService
 {
     public function __construct(
         protected HomePageFooterBlockRepository $footerBlockRepository,
-    ){
+    ) {
     }
 
     /**
