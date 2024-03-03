@@ -3,6 +3,7 @@
 namespace App\Services\Category\Update;
 
 use App\Repositories\Categories\CategoryUpdateDTO;
+use App\Services\Category\Update\Handlers\CategoryImageHandler;
 use App\Services\Category\Update\Handlers\CategoryUpdateHandler;
 use App\Services\Category\Update\Handlers\CheckCategorySlugExistHandler;
 use Illuminate\Pipeline\Pipeline;
@@ -12,6 +13,7 @@ class CategoryUpdateService
     protected const HANDLERS = [
         CheckCategorySlugExistHandler::class,
         CategoryUpdateHandler::class,
+        CategoryImageHandler::class,
     ];
 
     public function __construct(
