@@ -42,6 +42,11 @@ class UserResource extends JsonResource
                 type: 'string',
             ),
             new OA\Property(
+                property: 'link',
+                type: 'string',
+                nullable: true,
+            ),
+            new OA\Property(
                 property: 'createdAt',
                 type: 'string',
             ),
@@ -59,6 +64,7 @@ class UserResource extends JsonResource
             'phoneNumber'   => $resource->getPhoneNumber(),
             'address'       => $resource->getAddress() ?? '',
             'email'         => $resource->getEmail(),
+            'link'          => $resource->getLink() ?? '',
             'createdAt'     => $resource->getCreatedAt(),
         ];
     }

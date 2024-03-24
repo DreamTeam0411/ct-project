@@ -9,7 +9,7 @@
             "url": "https://ct-project.pp.ua/api/"
         },
         {
-            "url": "http://172.19.0.1/api/"
+            "url": "http://172.18.0.1/api/"
         }
     ],
     "paths": {
@@ -2375,7 +2375,7 @@
                         "type": "string"
                     },
                     "user": {
-                        "$ref": "#/components/schemas/Support"
+                        "$ref": "#/components/schemas/User"
                     },
                     "price": {
                         "type": "number",
@@ -2406,6 +2406,9 @@
                         "id": 32,
                         "firstName": "Олена",
                         "lastName": "Новікова",
+                        "phoneNumber": "380978889944",
+                        "address": "вул. Нова, 9",
+                        "link": "https://www.instagram.com/lorem-ipsum",
                         "email": "olena.novikova@example.com"
                     },
                     "price": 900.45,
@@ -2625,6 +2628,10 @@
                     },
                     "email": {
                         "type": "string"
+                    },
+                    "link": {
+                        "type": "string",
+                        "nullable": true
                     },
                     "createdAt": {
                         "type": "string"

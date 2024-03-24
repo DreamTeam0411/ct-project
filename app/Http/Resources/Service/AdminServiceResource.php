@@ -42,7 +42,7 @@ class AdminServiceResource extends JsonResource
             ),
             new OA\Property(
                 property: 'user',
-                ref: '#/components/schemas/Support'
+                ref: '#/components/schemas/User'
             ),
             new OA\Property(
                 property: 'price',
@@ -74,9 +74,12 @@ class AdminServiceResource extends JsonResource
             'photo'         => 'y1lzlmDXALGM0JIEQSSC2cu2fCb2ptJZZCmT8ihM.jpg',
             'user' => [
                 'id' => 32,
-                'firstName' => 'Олена',
-                'lastName'  => 'Новікова',
-                'email'     => 'olena.novikova@example.com'
+                'firstName'     => 'Олена',
+                'lastName'      => 'Новікова',
+                'phoneNumber'   => '380978889944',
+                'address'       => 'вул. Нова, 9',
+                'link'          => 'https://www.instagram.com/lorem-ipsum',
+                'email'         => 'olena.novikova@example.com'
             ],
             'price' => 900.45,
             'city' => [
@@ -98,12 +101,15 @@ class AdminServiceResource extends JsonResource
             'category'      => new CategoryIdNameSlugResource($resource->getCategory()),
             'title'         => $resource->getTitle(),
             'description'   => $resource->getDescription(),
-            'photo'         => $resource->getPhoto(),
+            'photo'         => $resource->getPhoto() ?? '',
             'user'          => [
-                'id'        => $resource->getUser()->getId(),
-                'firstName' => $resource->getUser()->getFirstName(),
-                'lastName'  => $resource->getUser()->getLastName(),
-                'email'     => $resource->getUser()->getEmail(),
+                'id'            => $resource->getUser()->getId(),
+                'firstName'     => $resource->getUser()->getFirstName(),
+                'lastName'      => $resource->getUser()->getLastName(),
+                'phoneNumber'   => $resource->getUser()->getPhoneNumber(),
+                'address'       => $resource->getUser()->getAddress() ?? '',
+                'link'          => $resource->getUser()->getLink() ?? '',
+                'email'         => $resource->getUser()->getEmail(),
             ],
             'price'         => $resource->getPrice(),
             'city'          => new CityIdNameAndSlugResource($resource->getCity()),

@@ -12,7 +12,6 @@ class CategoryUpdateHandler implements CategoryUpdateInterface
 {
     public function __construct(
         protected CategoryRepository $categoryRepository,
-        protected CategoryImageStorage $categoryImageStorage,
     ) {
     }
 
