@@ -5,6 +5,7 @@ namespace App\Repositories\Services\Iterators;
 use App\Repositories\Categories\Iterators\SubcategoryIterator;
 use App\Repositories\Cities\Iterators\CityIdNameAndSlugIterator;
 use App\Repositories\UserRepository\Iterators\SupportIterator;
+use App\Repositories\UserRepository\Iterators\UserIterator;
 
 class PrivateServiceIterator
 {
@@ -13,7 +14,7 @@ class PrivateServiceIterator
     protected string $title;
     protected string $description;
     protected string|null $photo;
-    protected SupportIterator $user;
+    protected UserIterator $user;
     protected float $price;
     protected CityIdNameAndSlugIterator $city;
     protected string $createdAt;
@@ -26,7 +27,7 @@ class PrivateServiceIterator
         $this->title        = $data->title;
         $this->description  = $data->description;
         $this->photo        = $data->photo;
-        $this->user         = new SupportIterator($data->user);
+        $this->user         = new UserIterator($data->user);
         $this->price        = $data->price;
         $this->city         = new CityIdNameAndSlugIterator($data->city);
         $this->createdAt    = $data->createdAt;
@@ -73,9 +74,9 @@ class PrivateServiceIterator
         return $this->photo;
     }
     /**
-     * @return SupportIterator
+     * @return UserIterator
      */
-    public function getUser(): SupportIterator
+    public function getUser(): UserIterator
     {
         return $this->user;
     }
