@@ -20,7 +20,11 @@ class AdminServiceUpdateRequest extends FormRequest
             'categoryId'    => ['integer', 'exists:categories,id'],
             'title'         => ['string', 'max:255'],
             'description'   => ['string', 'max:500'],
-            'userId'        => ['integer', 'exists:users,id'],
+            'firstName'     => ['string', 'max:255'],
+            'lastName'      => ['string', 'max:255'],
+            'phoneNumber'   => ['string', 'max:255'],
+            'link'          => ['string', 'max:255'],
+            'address'       => ['string', 'max:255'],
             'price'         => ['regex:/^\d*(\.\d{2})?$/', 'required'],
             'cityId'        => ['integer', 'exists:cities,id'],
             'photo'         => [

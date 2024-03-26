@@ -206,12 +206,17 @@ class ServiceRepository
     public function updatePrivateService(ServiceUpdateDTO $DTO): void
     {
         $this->query
+            ->join('users', 'services.user_id', '=', 'users.id')
             ->where('services.id', '=', $DTO->getId())
             ->update([
                 'services.category_id'   => $DTO->getCategoryId(),
                 'services.title'         => $DTO->getTitle(),
                 'services.description'   => $DTO->getDescription(),
-                'services.user_id'       => $DTO->getUserId(),
+                'users.first_name'       => $DTO->getFirstName(),
+                'users.last_name'        => $DTO->getLastName(),
+                'users.phone_number'     => $DTO->getPhoneNumber(),
+                'users.address'          => $DTO->getAddress(),
+                'users.link'             => $DTO->getLink(),
                 'services.price'         => $DTO->getPrice(),
                 'services.city_id'       => $DTO->getCityId(),
                 'services.updated_at'    => Carbon::now(),

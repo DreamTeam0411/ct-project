@@ -803,13 +803,45 @@
                         }
                     },
                     {
-                        "name": "userId",
+                        "name": "firstName",
                         "in": "query",
-                        "description": "Only existing User ID",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "minimum": 1
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "link",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
@@ -982,7 +1014,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "integer",
                             "minimum": 1
@@ -992,7 +1024,7 @@
                         "name": "categoryId",
                         "in": "query",
                         "description": "Only existing Category ID",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "integer",
                             "minimum": 1
@@ -1002,7 +1034,7 @@
                         "name": "title",
                         "in": "query",
                         "description": "max: 255",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "string",
                             "maxLength": 255
@@ -1012,27 +1044,59 @@
                         "name": "description",
                         "in": "query",
                         "description": "max: 500",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "string",
                             "maxLength": 500
                         }
                     },
                     {
-                        "name": "userId",
+                        "name": "firstName",
                         "in": "query",
-                        "description": "Only existing User ID",
-                        "required": true,
+                        "required": false,
                         "schema": {
-                            "type": "integer",
-                            "minimum": 1
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
+                        }
+                    },
+                    {
+                        "name": "link",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "nullable": true
                         }
                     },
                     {
                         "name": "price",
                         "in": "query",
                         "description": "regex in format: 999.99",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "number",
                             "format": "double"
@@ -1042,7 +1106,7 @@
                         "name": "cityId",
                         "in": "query",
                         "description": "Only existing City ID",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "integer",
                             "minimum": 1

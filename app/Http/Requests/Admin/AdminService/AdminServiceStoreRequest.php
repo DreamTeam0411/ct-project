@@ -25,7 +25,11 @@ class AdminServiceStoreRequest extends FormRequest
                 File::image()
                     ->types('image/jpeg')
             ],
-            'userId'        => ['integer', 'required', 'exists:users,id'],
+            'firstName'     => ['string', 'required', 'max:255'],
+            'lastName'      => ['string', 'required', 'max:255'],
+            'phoneNumber'   => ['string', 'required', 'max:255'],
+            'link'          => ['string', 'required', 'max:255'],
+            'address'       => ['string', 'required', 'max:255'],
             'price'         => ['regex:/^\d*(\.\d{2})?$/', 'required'],
             'cityId'        => ['integer', 'required', 'exists:cities,id'],
         ];

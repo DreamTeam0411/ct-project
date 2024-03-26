@@ -3,6 +3,7 @@
 namespace App\Repositories\UserRepository;
 
 use App\Enums\Role;
+use App\Repositories\Services\AdminServiceStoreDTO;
 use App\Repositories\UserRepository\Iterators\AdminBusinessIterator;
 use App\Repositories\UserRepository\Iterators\UserIterator;
 use Carbon\Carbon;
@@ -34,6 +35,25 @@ class UserRepository
            'password'       => Hash::make($DTO->getPassword()),
            'created_at'     => Carbon::now(),
            'updated_at'     => Carbon::now(),
+        ]);
+    }
+
+    /**
+     * @param AdminServiceStoreDTO $DTO
+     * @return int
+     */
+    public function createMaster(AdminServiceStoreDTO $DTO): int
+    {
+        return $this->query->insertGetId([
+            'first_name'        => $this->setFirstLetterUppercase($DTO->getFirstName()),
+            'last_name'         => $this->setFirstLetterUppercase($DTO->getLastName()),
+            'phone_number'      => $DTO->getPhoneNumber(),
+            'address'           => $DTO->getAddress(),
+            'link'              => $DTO->getLink(),
+            'email'             => uniqid() . '@gmail.com',
+            'password'          => Hash::make(uniqid()),
+            'created_at'        => Carbon::now(),
+            'updated_at'        => Carbon::now(),
         ]);
     }
 
