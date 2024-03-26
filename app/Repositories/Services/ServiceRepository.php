@@ -76,7 +76,7 @@ class ServiceRepository
             ->join('cities', 'services.city_id', '=', 'cities.id')
             ->where('services.id', '>', $lastId)
             ->orderBy('services.id', 'ASC')
-            ->take(100)
+//            ->take(100)
             ->get();
 
         return $collection->map(function ($service) {
