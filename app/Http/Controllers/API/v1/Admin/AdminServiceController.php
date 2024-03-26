@@ -154,13 +154,45 @@ class AdminServiceController extends Controller
                 ),
             ),
             new OA\Parameter(
-                name: 'userId',
-                description: 'Only existing User ID',
+                name: 'firstName',
                 in: 'query',
                 required: true,
                 schema: new OA\Schema(
-                    type: 'integer',
-                    minimum: 1,
+                    type: 'string',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'lastName',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'phoneNumber',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'link',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    nullable: true,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'address',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'string',
+                    nullable: true,
                 ),
             ),
             new OA\Parameter(
@@ -295,7 +327,7 @@ class AdminServiceController extends Controller
             new OA\Parameter(
                 name: 'id',
                 in: 'path',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
                     type: 'integer',
                     minimum: 1,
@@ -305,7 +337,7 @@ class AdminServiceController extends Controller
                 name: 'categoryId',
                 description: 'Only existing Category ID',
                 in: 'query',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
                     type: 'integer',
                     minimum: 1,
@@ -315,7 +347,7 @@ class AdminServiceController extends Controller
                 name: 'title',
                 description: 'max: 255',
                 in: 'query',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
                     type: 'string',
                     maxLength: 255,
@@ -325,27 +357,59 @@ class AdminServiceController extends Controller
                 name: 'description',
                 description: 'max: 500',
                 in: 'query',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
                     type: 'string',
                     maxLength: 500,
                 ),
             ),
             new OA\Parameter(
-                name: 'userId',
-                description: 'Only existing User ID',
+                name: 'firstName',
                 in: 'query',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
-                    type: 'integer',
-                    minimum: 1,
+                    type: 'string',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'lastName',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'phoneNumber',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                ),
+            ),
+            new OA\Parameter(
+                name: 'address',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                    nullable: true,
+                ),
+            ),
+            new OA\Parameter(
+                name: 'link',
+                in: 'query',
+                required: false,
+                schema: new OA\Schema(
+                    type: 'string',
+                    nullable: true,
                 ),
             ),
             new OA\Parameter(
                 name: 'price',
                 description: 'regex in format: 999.99',
                 in: 'query',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
                     type: 'number',
                     format: 'double',
@@ -355,7 +419,7 @@ class AdminServiceController extends Controller
                 name: 'cityId',
                 description: 'Only existing City ID',
                 in: 'query',
-                required: true,
+                required: false,
                 schema: new OA\Schema(
                     type: 'integer',
                     minimum: 1,

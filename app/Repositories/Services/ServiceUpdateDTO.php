@@ -6,16 +6,38 @@ use Illuminate\Http\UploadedFile;
 
 class ServiceUpdateDTO
 {
+    protected int $userId;
+
     public function __construct(
         protected int $id,
         protected int $categoryId,
         protected string $title,
         protected string $description,
-        protected int $userId,
+        protected string $firstName,
+        protected string $lastName,
+        protected string $phoneNumber,
+        protected string $link,
+        protected string $address,
         protected float $price,
         protected int $cityId,
         protected UploadedFile|null $photo = null,
     ) {
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
     }
 
     /**
@@ -51,11 +73,43 @@ class ServiceUpdateDTO
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getUserId(): int
+    public function getFirstName(): string
     {
-        return $this->userId;
+        return $this->firstName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoneNumber(): string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink(): string
+    {
+        return $this->link;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        return $this->address;
     }
 
     /**
